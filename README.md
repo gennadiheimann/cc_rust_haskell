@@ -1,6 +1,7 @@
 # cc_rust_haskell
 
 ## TODO
+- [ ] create uWebSocket in c++
 
 ## cc
 - create project dir
