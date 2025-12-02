@@ -1,5 +1,9 @@
 # cc_rust_haskell
 
+## TODO
+
+- [ ] add separat image (Dockerfile) for cc, rust, haskel
+
 ## cc
 - create project dir
 - crate CMakeLists.txt
