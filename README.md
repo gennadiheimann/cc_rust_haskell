@@ -2,6 +2,8 @@
 
 ## TODO
 - [ ] create uWebSocket in c++
+- [ ] create websocket_html_js_client
+- [ ] create helo world shared object in c++, rust and haskell
 
 ## cc
 - create project dir
