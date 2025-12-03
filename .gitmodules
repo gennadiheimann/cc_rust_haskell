@@ -1,3 +1,0 @@
-[submodule "cc/websocket_server/uwebsockets-cmake"]
-	path = cc/websocket_server/uwebsockets-cmake
-	url = https://github.com/flipkickmedia/uwebsockets-cmake.git
