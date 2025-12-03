@@ -1,7 +1,7 @@
 # cc_rust_haskell
 
 ## TODO
-- [ ] create uWebSocket in c++
+- [x] create uWebSocket in c++
 - [ ] create websocket_html_js_client
 - [ ] create helo world shared object in c++, rust and haskell
 
@@ -51,3 +51,11 @@ stack setup
 stack templates
 stack new hello_world
 ``` 
+
+### uWebsockets
+```
+git clone https://github.com/flipkickmedia/uwebsockets-cmake.git
+
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
+```
