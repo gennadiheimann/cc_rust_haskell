@@ -26,7 +26,7 @@ source-repository head
 library
   exposed-modules:
       ExactRoot
-      Lib
+      ExactRootFFI
   other-modules:
       Paths_exact_root
   autogen-modules:

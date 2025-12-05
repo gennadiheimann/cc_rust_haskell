@@ -1,9 +1,14 @@
 module Main (main) where
 
-import Lib
+import qualified ExactRoot as ER ( berechneExacteWurzel, Res ( .. )) 
 
 main :: IO ()
-main = someFunc
+main = do
+  print "Exact Root Calculator"
+  print ( "Exact Root from 50" ++ show(ER.berechneExacteWurzel 50))
+  print ( "Exact Root from 5000" ++ show(ER.berechneExacteWurzel 5000))
+  print ( "Exact Root from 100" ++ show(ER.berechneExacteWurzel 100))
+
 
 {-
 {-# LANGUAGE OverloadedStrings #-}
