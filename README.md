@@ -4,6 +4,24 @@
 - [x] create uWebSocket in c++
 - [x] create websocket_html_js_client
 - [ ] create helo world shared object in c++, rust and haskell
+- [ ] *.so aufgeben da im Haskell eine Haskell Environment in CMake integriert werden soll
+- [ ] auf gRPC umstellen, Opensorce
+- [ ] for c++, haskell, rust eigenen container erstellen
+- [ ] composer, welcher alle container startet und die Projekte compeliert.
+- [ ] eine Node.js server austellen, welcher die Anfragen an der Richtigen Container sendet.
+
+## Architecture
+
+```dot
+digraph Arcitecture {
+    node [shape=box];
+    "Webbrowser client" -> "Docker Node.js  WebServer/gPRC Clients"
+    "Docker Node.js  WebServer/gPRC Clients" -> "Node.js Client" -> 
+    "Haskell gRPC Server" -> "exact_root Haskell impl"
+    "Node.js Client" -> "C++ sPRC Server" -> "exact_root C++ impl"
+    "Node.js Client" -> "Rust sPRC Server" -> "exact_root Rust impl"
+}
+```
 
 ## cc
 - create project dir
