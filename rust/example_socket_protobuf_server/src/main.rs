@@ -4,7 +4,7 @@ use bytes::BytesMut;
 use prost::Message;
 
 pub mod hello_world {
-    include!(concat!(env!("OUT_DIR"), "proto/hello_world.rs"));
+    include!(concat!(env!("OUT_DIR"), "/hello_world.rs"));
 }
 
 #[tokio::main]
