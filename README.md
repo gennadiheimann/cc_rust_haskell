@@ -97,3 +97,11 @@ stack install proto-lens-protoc
 ```console
 protoc --plugin=protoc-gen-haskell=$(stack exec -- which proto-lens-protoc)  --haskell_out=src proto/hello_world.proto
 ```
+
+### rest
+``` console
+curl http://localhost:8080/health
+curl -X POST http://localhost:8080/items -H "Content-Type: application/json" -d '{"name":"Widget","price":12.5}'
+curl http://localhost:8080/items/1
+
+```

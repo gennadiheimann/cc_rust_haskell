@@ -5,7 +5,7 @@ module Main (main) where
 import Network.Socket
 import qualified Network.Socket.ByteString as NSB
 -- import qualified Data.ByteString as BS
-import qualified Data.ByteString.Lazy as BL
+-- import qualified Data.ByteString.Lazy as BL
 import Data.ProtoLens.Encoding (decodeMessage)
 import Proto.Proto.HelloWorld_Fields -- automatisch generiert
 import Proto.Proto.HelloWorld -- automatisch generiert
