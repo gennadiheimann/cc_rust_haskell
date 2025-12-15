@@ -8,11 +8,11 @@ import Data.Aeson (ToJSON)
 import GHC.Generics (Generic)
 import Data.Text.Lazy (Text)
 
-data Hello = Hello { message :: Text } deriving (Show, Generic)
+data Hello = Hello { multiplicator :: Text, rootValue :: Text } deriving (Show, Generic)
 instance ToJSON Hello
 
 main :: IO ()
 main = scotty 3000 $ do
-  get "/hello/:name" $ do
-    name <- param "name"
-    json $ Hello { message = "Hello, " <> name <> "!" }
+  get "/exactSquareRoot/:radicand" $ do
+    name <- param "radicand"
+    json $ Hello { multiplicator = "test", rootValue = name }
