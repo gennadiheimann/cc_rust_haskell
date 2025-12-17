@@ -1,8 +1,6 @@
 #!/bin/bash
 
-cd app/exact-square-root-rest-api-server
-
-stack setup
+cd app/
 
 stack build
 
