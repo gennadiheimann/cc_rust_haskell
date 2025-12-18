@@ -3,6 +3,6 @@ RUN apt update \
   && apt install -y curl
 RUN curl -sSL https://get.haskellstack.org/ | sh
 RUN stack setup 
-WORKDIR /app
-COPY . .
-RUN stack build
+# WORKDIR /app
+# COPY . .
+# RUN stack build

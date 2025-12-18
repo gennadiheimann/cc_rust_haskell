@@ -15,6 +15,7 @@ instance ToJSON ExactSquareRoot
 main :: IO ()
 main = scotty 8082 $ do
   get "/exactSquareRoot/:radicand" $ do
+    setHeader "Access-Control-Allow-Origin" "*"
     radicandText <- param "radicand"
     let radicandInt = read (TL.unpack radicandText) :: Int
     liftIO $ print ( "Exact Root" ++ show(ER.berechneExacteWurzel radicandInt))
