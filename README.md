@@ -62,12 +62,19 @@ curl http://localhost:3000/hello/Bob
 
 ## start docker rest api server (exact square root)
 ```console
-cd cc_rust_haskell/haskell
-docker build -t haskell_exact_square_root_rest_api_server .
+# go to project
+cd haskell/exact-square-root-rest-api-server
+# create image
+docker build -t image_haskell_exact_square_root_rest_api_server .
 # for test run container in bash
-docker run -it -v $(pwd):/app haskell_exact_square_root_rest_api_server:latest bash
-# run container wit publish port 8082 and run rest api server
-docker run -it -p 8082:8082 -v $(pwd):/app haskell_exact_square_root_rest_api_server /app/start_exact_square_root_rest_api_server.sh
+docker run -it -v $(pwd):/app image_haskell_exact_square_root_rest_api_server:latest bash
+# run container with publish port 8082 and run rest api server
+# first time
+docker run -it --name haskell_exact_square_root_rest_api_server -p 8082:8082 -v $(pwd):/app image_haskell_exact_square_root_rest_api_server /app/start.sh
+# start container next time
+docker start -i haskell_exact_square_root_rest_api_server
+# stop container 
+docker stop haskell_exact_square_root_rest_api_server
 ```
 
 # WEB CLIENT
@@ -75,7 +82,7 @@ docker run -it -p 8082:8082 -v $(pwd):/app haskell_exact_square_root_rest_api_se
 ## apache container
 ```console
 docker build -t my-apache2 .
-docker run -dit --name my-running-app -p 8080:80 my-apache2
+docker run -it --name my-running-app -p 8080:80 my-apache2
 ```
 
 
