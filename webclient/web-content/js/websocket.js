@@ -7,6 +7,7 @@
  //response -> {"jsonrpc":"2.0","result":{"multiplikator":5,"wurzelwert":2},"id":1}
 
 function main(){
-  websocketRust()
-  websocketHaskell()
+  // websocketRust()
+  // websocketHaskell()
+  restApiHaskellExactSquareRoot()
 }
