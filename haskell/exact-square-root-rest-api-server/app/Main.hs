@@ -9,19 +9,24 @@ import GHC.Generics (Generic)
 import qualified Data.Text.Lazy as TL 
 import qualified ExactRoot as ER ( berechneExacteWurzel, Res ( .. )) 
 
-data ExactSquareRoot = ExactSquareRoot { multiplicator :: TL.Text, rootValue :: TL.Text } deriving (Show, Generic)
+data ExactSquareRoot = ExactSquareRoot 
+  { 
+    multiplicator :: Int, 
+    rootValue :: Int, 
+    radicand:: Int 
+  } deriving (Show, Generic)
 instance ToJSON ExactSquareRoot
 
 main :: IO ()
 main = scotty 8082 $ do
   get "/exactSquareRoot/:radicand" $ do
     setHeader "Access-Control-Allow-Origin" "*"
-    radicandText <- param "radicand"
+    radicandText <- pathParam "radicand"
     let radicandInt = read (TL.unpack radicandText) :: Int
-    liftIO $ print ( "Exact Root" ++ show(ER.berechneExacteWurzel radicandInt))
-    let result = head $ ER.berechneExacteWurzel radicandInt
-    json $ ExactSquareRoot { multiplicator = TL.pack (show $ ER.multiplikator result ), rootValue = TL.pack (show $ ER.wurzelwert result ) }
-
-getResult :: [ER.Res] -> [(Int, Int)]
-getResult [] = []
-getResult (x:xs) = (ER.multiplikator x, ER.wurzelwert x) : getResult xs
+    -- liftIO $ print ( "Exact Root" ++ show(ER.berechneExacteWurzel radicandInt))
+    json $  [ ExactSquareRoot {  
+                                multiplicator = ER.multiplikator result
+                              , rootValue = ER.wurzelwert result
+                              , radicand = ER.radikand result 
+                              } | result <- ER.berechneExacteWurzel radicandInt
+            ]
