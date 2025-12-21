@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       ExactRoot
+      ExactRootEng
   other-modules:
       Paths_exact_square_root_rest_api_server
   autogen-modules:
