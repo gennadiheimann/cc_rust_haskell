@@ -57,7 +57,7 @@ stack new hello_world
 
 ## haskell rest api
 ```console
-curl http://localhost:3000/hello/Bob
+curl http://localhost:8082/exactSquareRoot/
 ```
 
 ## start docker rest api server (exact square root)
