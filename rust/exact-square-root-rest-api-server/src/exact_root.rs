@@ -1,34 +1,56 @@
 pub mod calc_exact_root {
   #[derive(Debug, PartialEq)]
   pub struct Res{
-    pub multiplikator : u64,
-    pub wurzelwert :u64
+    pub multiplikator : i64,
+    pub sqrt :i64
+  }
+// TODO: Return [Res]
+// TODO: sqrt(2) -> []
+  pub fn berechne_exacte_wurzel(radikand : i64) -> Vec<Res> {
+    if radikand == 0 || radikand == 1 {
+      vec![Res{multiplikator : -1, sqrt : radikand}]
+    }else{
+      let odd_numbers_1 = get_odd_numbers(radikand);
+      let default_sqrts_1 = calc_default_sqrt(odd_numbers_1);
+      let numbers_1 = get_numbers(radikand);
+      let radicand_and_sqrt_1 = zip(default_sqrts_1, numbers_1);
+      let simple_sqrt = search_simple_sqrt(radikand, radicand_and_sqrt_1);
+      
+      let odd_numbers_2 = get_odd_numbers(radikand);
+      let default_sqrts_2 = calc_default_sqrt(odd_numbers_2);
+      let numbers_2 = get_numbers(radikand);
+      let radicand_and_sqrt_2 = zip(default_sqrts_2, numbers_2);
+      // let complex_sqrt = search_complex_sqrt(radikand, radicand_and_sqrt_2.clone());
+      let complex_sqrt_2 = search_complex_sqrt_2(radikand, radicand_and_sqrt_2);
+      println!("{:?}", complex_sqrt_2);
+      if !complex_sqrt_2.is_empty() {
+        
+        match simple_sqrt {
+          Some(res) => {
+            let mut result : Vec<Res> = vec![];
+            for res_ in complex_sqrt_2{
+              let sqrt = res_.1;
+              result.push(Res{multiplikator : -1, sqrt : sqrt});
+            }
+            result
+          },
+          None => {
+            let mut result : Vec<Res> = vec![];
+            for res_ in complex_sqrt_2{
+              result.push(Res{multiplikator : res_.0, sqrt : res_.1})
+            }
+            result
+          }
+        }
+      }else{ 
+        vec![Res{multiplikator : -1, sqrt : -1}]
+      } 
+    }
   }
 
-  pub fn berechne_exacte_wurzel(radikand : u64) -> Res {
-    let ungerade_zahlen_1 = berechne_ungerade_zahlen(radikand);
-    let standard_werte_1 = berechne_standard_werte(ungerade_zahlen_1);
-    let einfache_reihe_1 = berechne_einfache_reihe(radikand);
-    let radikand_wurzelwert_1 = zippen(standard_werte_1, einfache_reihe_1);
-    let einfache_wurzelwert = berechne_einfache_wurzelwert(radikand, radikand_wurzelwert_1);
-    
-    let ungerade_zahlen_2 = berechne_ungerade_zahlen(radikand);
-    let standard_werte_2 = berechne_standard_werte(ungerade_zahlen_2);
-    let einfache_reihe_2 = berechne_einfache_reihe(radikand);
-    let radikand_wurzelwert_2 = zippen(standard_werte_2, einfache_reihe_2);
-    let komplexe_wurzelwert = berechne_komplexe_wurzelwert(radikand, radikand_wurzelwert_2);
-    let multiplikator = komplexe_wurzelwert.unwrap().0;
-    let wurzelwert = komplexe_wurzelwert.unwrap().1;
-    match einfache_wurzelwert {
-      Some(res) => Res{multiplikator : 1, wurzelwert : res},
-      None => Res{multiplikator : multiplikator, wurzelwert : wurzelwert}
-    }
-    // unberehenbare Wurzel loesen panic aus
-  }
-  //die Berechnung bis Resultat der Addition < Radikand
-  fn berechne_standard_werte(ungerade_zahlen: Vec<u64>) -> Vec<u64> {
+  fn calc_default_sqrt(ungerade_zahlen: Vec<i64>) -> Vec<i64> {
     let mut counter = 0;
-    let mut result : Vec<u64> = Vec::new();
+    let mut result : Vec<i64> = Vec::new();
     let size = ungerade_zahlen.len();
     while counter < (size - 1) {
       if counter == 0 {
@@ -44,34 +66,34 @@ pub mod calc_exact_root {
   }
 
   use std::vec::Vec;
-  fn berechne_ungerade_zahlen(radikand: u64) -> Vec<u64>{
+  fn get_odd_numbers(radikand: i64) -> Vec<i64>{
     if radikand < 1 {
       vec![1]
     }else {
-      (0..radikand).collect::<Vec<u64>>()
+      (0..radikand).collect::<Vec<i64>>()
       .into_iter()
       .filter(|x| x % 2 != 0)
-      .collect::<Vec<u64>>()
+      .collect::<Vec<i64>>()
     }
     
   } 
 
-  fn berechne_einfache_reihe(radikand: u64) -> Vec<u64> {
+  fn get_numbers(radikand: i64) -> Vec<i64> {
     let teiler = (radikand / 2) + 1;
-    (2..teiler).collect::<Vec<u64>>()
+    (2..teiler).collect::<Vec<i64>>()
   }
 
-  fn zippen(standard_werte: Vec<u64>, einfache_reihe: Vec<u64>) -> Vec<(u64,u64)> {
-    let mut result : Vec<(u64, u64)> = Vec::new();
+  fn zip(standard_werte: Vec<i64>, einfache_reihe: Vec<i64>) -> Vec<(i64,i64)> {
+    let mut result : Vec<(i64, i64)> = Vec::new();
     for (x, y) in einfache_reihe.iter().zip(standard_werte.iter()) {
       result.push((*x, *y));
     }
     result
   }
 
-  fn berechne_einfache_wurzelwert(radikand: u64, radikand_wurzelwert: Vec<(u64, u64)>) -> Option<u64> {
-    let result: Vec<(u64, u64)> = radikand_wurzelwert.into_iter()
-        .filter(|(_, y)|  *y == radikand).collect::<Vec<(u64, u64)>>();
+  fn search_simple_sqrt(radikand: i64, radikand_wurzelwert: Vec<(i64, i64)>) -> Option<i64> {
+    let result: Vec<(i64, i64)> = radikand_wurzelwert.into_iter()
+        .filter(|(_, y)|  *y == radikand).collect::<Vec<(i64, i64)>>();
     if result.len() == 0 {
       None
     }else{
@@ -79,13 +101,24 @@ pub mod calc_exact_root {
     }
   }
       
-  fn berechne_komplexe_wurzelwert(radikand: u64, radikand_wurzelwert: Vec<(u64, u64)>) -> Option<(u64, u64)> {
-    let mut result: Option<(u64, u64)> = None;
+  fn search_complex_sqrt(radikand: i64, radikand_wurzelwert: Vec<(i64, i64)>) -> Option<(i64, i64)> {
+    let mut result: Option<(i64, i64)> = None;
     for (x, y) in radikand_wurzelwert.iter() {
       let temp = radikand % y;
       if temp == 0 {
         result = Some((*x, (radikand / y)));
         break;
+      }
+    } 
+    result
+  }
+
+  fn search_complex_sqrt_2(radikand: i64, radikand_wurzelwert: Vec<(i64, i64)>) -> Vec<(i64, i64)> {
+    let mut result: Vec<(i64, i64)> = vec![];
+    for (x, y) in radikand_wurzelwert.iter() {
+      let temp = radikand % y;
+      if temp == 0 {
+        result.push((*x, (radikand / y)));
       }
     } 
     result
@@ -99,18 +132,18 @@ mod tests {
 
     #[test]
     fn test_get_exact_sqrt() {
-        assert_eq!(berechne_exacte_wurzel(0), Res{multiplikator : 1, wurzelwert : 0});
-        // assert_eq!(berechne_exacte_wurzel(1), Res{multiplikator : 1, wurzelwert : 1});
-        // assert_eq!(berechne_exacte_wurzel(2), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(3), Res{multiplikator : 1, wurzelwert : 3});
-        // assert_eq!(berechne_exacte_wurzel(4), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(5), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(6), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(7), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(8), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(9), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(10), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(100), Res{multiplikator : 1, wurzelwert : 2});
-        // assert_eq!(berechne_exacte_wurzel(1000), Res{multiplikator : 1, wurzelwert : 2});
+        assert_eq!(berechne_exacte_wurzel(0), vec![Res{multiplikator : -1, sqrt : 0}]);
+        // assert_eq!(berechne_exacte_wurzel(1), Res{multiplikator : -1, sqrt : 1});
+        // assert_eq!(berechne_exacte_wurzel(2), Res{multiplikator : -1, sqrt : -1});
+        // assert_eq!(berechne_exacte_wurzel(3), Res{multiplikator : -1, sqrt : -1});
+        // assert_eq!(berechne_exacte_wurzel(4), Res{multiplikator : -1, sqrt : 2});
+        // assert_eq!(berechne_exacte_wurzel(5), Res{multiplikator : -1, sqrt : -1});
+        // assert_eq!(berechne_exacte_wurzel(6), Res{multiplikator : -1, sqrt : -1});
+        // assert_eq!(berechne_exacte_wurzel(7), Res{multiplikator : -1, sqrt : -1});
+        // assert_eq!(berechne_exacte_wurzel(8), Res{multiplikator : 2, sqrt : 2});
+        // assert_eq!(berechne_exacte_wurzel(9), Res{multiplikator : -1, sqrt : 3});
+        // assert_eq!(berechne_exacte_wurzel(10), Res{multiplikator : -1, sqrt : -1});
+        // assert_eq!(berechne_exacte_wurzel(100), Res{multiplikator : -1, sqrt : 10});
+        // assert_eq!(berechne_exacte_wurzel(1000), Res{multiplikator : 2, sqrt : 25});
     }
 }
