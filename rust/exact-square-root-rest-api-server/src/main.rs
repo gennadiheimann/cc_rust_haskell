@@ -13,7 +13,7 @@ use axum::http::Method;
 #[derive(Serialize)]
 struct Result {
     multiplicator: i64,
-    sqrt: i64,
+    squareRoot: i64,
 }
 
 #[tokio::main]
@@ -40,7 +40,7 @@ async fn exact_square_root(Path(param): Path<i64>) -> Json<Vec<Result>> {
   let results = get_exact_sqrt(param);
   let mut json_results: Vec<Result> = vec![];
   for r in results {
-    json_results.push(Result{multiplicator: r.multiplicator, sqrt: r.sqrt})
+    json_results.push(Result{multiplicator: r.multiplicator, squareRoot: r.sqrt})
   }
   Json(json_results)
 }
