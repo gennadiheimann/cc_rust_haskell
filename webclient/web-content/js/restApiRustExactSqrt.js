@@ -1,8 +1,8 @@
 function restApiHaskellExactSquareRoot(){
-  $("#resultHaskell").html("Ergebniss von Haskell: ")
-  $("#sendenHaskell").on("click", function(e){
-      var rad = $("#radicandHaskell").val()
-      fetch("http://localhost:8082/exactSquareRoot/" + rad)
+  $("#resultRust").html("Ergebniss von Rust: ")
+  $("#sendenRust").on("click", function(e){
+      var rad = $("#radicandRust").val()
+      fetch("http://localhost:8083/exactSquareRoot/" + rad)
         .then(response => {
         if (!response.ok) {
             throw new Error('Netzwerk-Antwort war nicht ok');
@@ -13,7 +13,7 @@ function restApiHaskellExactSquareRoot(){
           console.log("Ergebnis: " + JSON.stringify(data));
           var length = data.length;
           if(length == 0){
-            $("#resultHaskell").html(
+            $("#resultRust").html(
               "Ergebnis: " + "&radic;<span style=\"text-decoration: overline\">" + 
               rad + 
               "</span>"
@@ -21,16 +21,16 @@ function restApiHaskellExactSquareRoot(){
           } else {
             if(length == 1){
               if (data[0].multiplicator == -1){
-                $("#resultHaskell").html(
-                  "Ergebnis: " + data[0].squareRoot + 
+                $("#resultRust").html(
+                  "Ergebnis: " + data[0].sqrt + 
                   "</span>"
                 );
               }else{
                 var erg = "| " + data[0].multiplicator + 
                   "&times;&radic;<span style=\"text-decoration: overline\">" + 
-                  data[0].squareRoot + 
+                  data[0].sqrt + 
                   "</span>" + " | ";
-                $("#resultHaskell").html(
+                $("#resultRust").html(
                   "Ergebnis: " +  erg
                 )
               }
@@ -39,11 +39,11 @@ function restApiHaskellExactSquareRoot(){
               for(const item of data){
                 var erg = "| " + item.multiplicator + 
                   "&times;&radic;<span style=\"text-decoration: overline\">" + 
-                  item.squareRoot + 
+                  item.sqrt + 
                   "</span>" + " | ";
                   collectRes = collectRes + erg;
               }
-              $("#resultHaskell").html(
+              $("#resultRust").html(
                   "Ergebnis: " +  collectRes
                 )
             }
