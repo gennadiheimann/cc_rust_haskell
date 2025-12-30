@@ -9,5 +9,6 @@
 function main(){
   // websocketRust()
   // websocketHaskell()
-  restApiHaskellExactSquareRoot()
+  restApiHaskellExactSqrt()
+  restApiRustExactSqrt()
 }

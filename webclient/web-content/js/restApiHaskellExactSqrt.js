@@ -1,7 +1,8 @@
-function restApiHaskellExactSquareRoot(){
+function restApiHaskellExactSqrt(){
   $("#resultHaskell").html("Ergebniss von Haskell: ")
   $("#sendenHaskell").on("click", function(e){
-      var rad = $("#radicandHaskell").val()
+    var rad = $("#radicandHaskell").val()
+    console.log("Send to Haskell Rest API: " + rad);
       fetch("http://localhost:8082/exactSquareRoot/" + rad)
         .then(response => {
         if (!response.ok) {
@@ -10,7 +11,7 @@ function restApiHaskellExactSquareRoot(){
         return response.json();
         })
         .then(data => {
-          console.log("Ergebnis: " + JSON.stringify(data));
+          console.log("Result from Haskell Rest API: " + JSON.stringify(data));
           var length = data.length;
           if(length == 0){
             $("#resultHaskell").html(
