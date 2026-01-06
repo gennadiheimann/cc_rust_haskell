@@ -38,15 +38,16 @@ or
 ```console
 cmake -B build -S .
 cmake --build build
+# run tests
+cd build
+ctest
 
 ```
 
 ### rest api
 
 ``` console
-curl http://localhost:8080/health
-curl -X POST http://localhost:8080/items -H "Content-Type: application/json" -d '{"name":"Widget","price":12.5}'
-curl http://localhost:8080/items/1
+curl http://localhost:8081/exactSquareRoot/1000
 ```
 
 ### start docker rest api server  
