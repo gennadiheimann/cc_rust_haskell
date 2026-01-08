@@ -2,25 +2,52 @@
 #include <ranges>
 #include <numeric>
 #include <iostream>
+#include <chrono>
 
 namespace exact_square_root {
 std::vector<Res> ExactSquareRoot::GetExactSqrt(){
+  auto start = std::chrono::high_resolution_clock::now();
   if(radicand_  == 0 || radicand_ == 1){
     return {{-1, radicand_}};
   }
-
   const auto odd_numbers = GetOddNumbers();
+
+  auto timepoint_1 = std::chrono::high_resolution_clock::now();
+  auto duration_1 = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint_1 - start).count();
+  std::cout << "Timepoint 1: " << duration_1 << " Millisekunden\n";
+
   const auto default_sqrts = CalcDefaultSqrts(odd_numbers);
-  
+
+  auto timepoint_2 = std::chrono::high_resolution_clock::now();
+  auto duration_2 = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint_2 - timepoint_1).count();
+  std::cout << "Timepoint 2: " << duration_2 << " Millisekunden\n";
   // TODO
   //std::vector<int>&&
   //std::vector<int>&
   ZipRadicandsAndDefaultSqrts(default_sqrts);
+
+  auto timepoint_3 = std::chrono::high_resolution_clock::now();
+  auto duration_3 = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint_3 - timepoint_2).count();
+  std::cout << "Timepoint 3: " << duration_3 << " Millisekunden\n";
+  
   auto const simple_sqrt{SearchSimpleSqrt()}; 
+
+  auto timepoint_4 = std::chrono::high_resolution_clock::now();
+  auto duration_4 = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint_4 - timepoint_3).count();
+  std::cout << "Timepoint 4: " << duration_4 << " Millisekunden\n";
+
   if(simple_sqrt.has_value()){
     return {{-1, simple_sqrt.value()}};
   }
   auto const complex_sqrts{SearchComplexSqrt()};
+
+  auto timepoint_5 = std::chrono::high_resolution_clock::now();
+  auto duration_5 = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint_5 - timepoint_4).count();
+  std::cout << "Timepoint 4: " << duration_5 << " Millisekunden\n";
+
+  auto duration_all = std::chrono::duration_cast<std::chrono::milliseconds>(timepoint_5 - start).count();
+  std::cout << "Timepoint All: " << duration_all << " Millisekunden\n";
+
   if(complex_sqrts.empty()){
     return {};
   }else{
@@ -41,9 +68,21 @@ std::vector<int> ExactSquareRoot::CalcDefaultSqrts(std::vector<int> odd_numbers)
   // TODO: im rust auch aenliche Methode wie partial sum finden. 
   std::vector<int> result;
   result.reserve(odd_numbers.size());
-  std::partial_sum(odd_numbers.begin(), odd_numbers.end(), std::back_inserter(result));
+  int acc = 0;
+  for(int val : odd_numbers){
+    if(acc < radicand_){
+      acc += val;
+      if(acc < 0){
+        // std::cout << "#### acc: " << acc << std::endl;
+        break;
+      }
+      result.push_back(acc);
+    }else{
+      break;
+    }
+  }
+
   result.erase(result.begin());
-  
   return result;
 }
 
@@ -52,7 +91,11 @@ std::vector<int> ExactSquareRoot::GetOddNumbers(){
     return {};
   }
   std::vector<int> odds;
-  for (int x : std::views::iota(1, radicand_) | std::views::filter([](int x){ return x & 1; })){
+  int r {radicand_};
+  if(radicand_ > 10000){
+    r = radicand_* 0.01;
+  }
+  for (int x : std::views::iota(1, r) | std::views::filter([](int x){ return x & 1; })){
     odds.push_back(x);
   }
   return odds;
