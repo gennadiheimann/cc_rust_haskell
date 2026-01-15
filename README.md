@@ -50,6 +50,14 @@ ctest
 curl http://localhost:8081/exactSquareRoot/1000
 ```
 
+### Docker CC sqrt
+
+```console  
+cd cc/exact_square_root_rest_api_server/
+docker build -t cc_rest_api_server_sqrt .
+docker run -it -p 8081:8081 cc_rest_api_server_sqrt:latest
+```
+
 ### start docker rest api server  
 
 ```console
@@ -60,7 +68,7 @@ docker run -it -p 8080:8080 -v $(pwd):/app example_restapi_json_server /app/star
 
 ## RUST
 
-``` console
+```console
 cargo new hello_world
 cargo run
 ```
@@ -122,3 +130,5 @@ docker run -it -p 8082:8082 haskell_rest_api_server_sqrt:latest /app/exact-squar
 docker build -t my-apache2 .
 docker run -it --name my-running-app -p 8080:80 my-apache2
 ```
+
+Access to fetch at 'http://localhost:8081/exactSquareRoot/1000' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
