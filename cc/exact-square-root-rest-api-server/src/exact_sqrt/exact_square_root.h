@@ -13,26 +13,24 @@ struct Res{
 };
 
 class ExactSquareRoot {
-
   public:
-
   ExactSquareRoot(int radicand) : radicand_(radicand){};
-
   std::vector<Res> GetExactSqrt();
-  // Only for debug purpose
-  std::vector<int> GetOddNumbers();
-  std::vector<int> CalcDefaultSqrts(std::vector<int> odd_numbers);
-  void ZipRadicandsAndDefaultSqrts(std::vector<int> default_sqrts);
+
   // new imperative Implementation
-  void SetSqrtAndRadicand();
   std::optional<int> SearchSimpleSqrt();
   std::vector<std::pair<int, int>> SearchComplexSqrt();
-  std::vector<std::pair<int, int>> GetRadicandAndSqrts() {return sqrt_and_radicand_;}
-
-
+  
+  
   private:
-
-
+  void SetSqrtAndRadicand();
+  // old impl
+  std::vector<int> GetOddNumbers();
+  std::vector<int> CalcDefaultSqrts(std::vector<int> odd_numbers);
+  std::vector<std::pair<int, int>> GetRadicandAndSqrts() {return sqrt_and_radicand_;}
+  void ZipRadicandsAndDefaultSqrts(std::vector<int> default_sqrts);
+  
+  
   int radicand_{0};
   std::vector<std::pair<int, int>> sqrt_and_radicand_;
 };

@@ -5,166 +5,166 @@
 #include <iostream>
 #include <cmath>
 
-// TEST_CASE("sqrt(0)", ""){
-//   exact_square_root::ExactSquareRoot esr{0};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == -1);
-//   REQUIRE(r.at(0).square_root == 0);
-// }
+TEST_CASE("sqrt(0)", ""){
+  exact_square_root::ExactSquareRoot esr{0};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == -1);
+  REQUIRE(r.at(0).square_root == 0);
+}
 
-// TEST_CASE("sqrt(1)", ""){
-//   exact_square_root::ExactSquareRoot esr{1};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == -1);
-//   REQUIRE(r.at(0).square_root == 1);
-// }
+TEST_CASE("sqrt(1)", ""){
+  exact_square_root::ExactSquareRoot esr{1};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == -1);
+  REQUIRE(r.at(0).square_root == 1);
+}
 
-// TEST_CASE("sqrt(2)", ""){
-//   exact_square_root::ExactSquareRoot esr{2};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
+TEST_CASE("sqrt(2)", ""){
+  exact_square_root::ExactSquareRoot esr{2};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
 
-// TEST_CASE("sqrt(3)", ""){
-//   exact_square_root::ExactSquareRoot esr{3};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
+TEST_CASE("sqrt(3)", ""){
+  exact_square_root::ExactSquareRoot esr{3};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
 
-// TEST_CASE("sqrt(4)", ""){
-//   exact_square_root::ExactSquareRoot esr{4};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == -1);
-//   REQUIRE(r.at(0).square_root == 2);
-// }
+TEST_CASE("sqrt(4)", ""){
+  exact_square_root::ExactSquareRoot esr{4};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == -1);
+  REQUIRE(r.at(0).square_root == 2);
+}
 
-// TEST_CASE("sqrt(5)", ""){
-//   exact_square_root::ExactSquareRoot esr{5};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
+TEST_CASE("sqrt(5)", ""){
+  exact_square_root::ExactSquareRoot esr{5};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
 
-// TEST_CASE("sqrt(6)", ""){
-//   exact_square_root::ExactSquareRoot esr{6};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
+TEST_CASE("sqrt(6)", ""){
+  exact_square_root::ExactSquareRoot esr{6};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
 
-// TEST_CASE("sqrt(7)", ""){
-//   exact_square_root::ExactSquareRoot esr{7};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
+TEST_CASE("sqrt(7)", ""){
+  exact_square_root::ExactSquareRoot esr{7};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
 
-// TEST_CASE("sqrt(8)", ""){
-//   exact_square_root::ExactSquareRoot esr{8};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == 2);
-//   REQUIRE(r.at(0).square_root == 2);
-// }
+TEST_CASE("sqrt(8)", ""){
+  exact_square_root::ExactSquareRoot esr{8};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == 2);
+  REQUIRE(r.at(0).square_root == 2);
+}
 
-// TEST_CASE("sqrt(9)", ""){
-//   exact_square_root::ExactSquareRoot esr{9};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == -1);
-//   REQUIRE(r.at(0).square_root == 3);
-// }
-
-// TEST_CASE("sqrt(10)", ""){
-//   exact_square_root::ExactSquareRoot esr{10};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
-
-// TEST_CASE("sqrt(11)", ""){
-//   exact_square_root::ExactSquareRoot esr{11};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
-
-// TEST_CASE("sqrt(100)", ""){
-//   exact_square_root::ExactSquareRoot esr{100};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == -1);
-//   REQUIRE(r.at(0).square_root == 10);
-// }
-
-// TEST_CASE("sqrt(1000)", ""){
-//   exact_square_root::ExactSquareRoot esr{1000};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   std::vector<std::pair<int, int>> expected {{2, 250}, {5, 40}, {10, 10}};
-//   REQUIRE(r.size() == 3);
-//   for(int i = 0; i < r.size(); ++i){
-//     REQUIRE(r.at(i).multiplicator == expected.at(i).first);
-//     REQUIRE(r.at(i).square_root == expected.at(i).second);
-//   }
-// }
-
-// TEST_CASE("Max calculble sqrt(92681)", "sqrt(max from type) * 2 - 1"){
-//   // std::cout << "Max calculble sqrt : " << (std::sqrt(std::numeric_limits<int>::max()) * 2) - 1 << "\n";
-//   exact_square_root::ExactSquareRoot esr{92681};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   REQUIRE(r.size() == 0);
-// }
-
-// TEST_CASE("sqrt(92680)", ""){
-//   exact_square_root::ExactSquareRoot esr{92680};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   std::vector<std::pair<int, int>> expected {{2, 23170}};  
-//   REQUIRE(r.size() == 1);
-//   REQUIRE(r.at(0).multiplicator == 2);
-//   REQUIRE(r.at(0).square_root == 23170);
-// }
-
-// TEST_CASE("sqrt(536870910)", ""){
-//   exact_square_root::ExactSquareRoot esr{536870900};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   std::vector<std::pair<int, int>> expected {{2, 134217725}, {5, 21474836}, {10, 5368709}};  
-//   REQUIRE(r.size() == 3);
-//   for(int i = 0; i < r.size(); ++i){
-//     REQUIRE(r.at(i).multiplicator == expected.at(i).first);
-//     REQUIRE(r.at(i).square_root == expected.at(i).second);
-//   }
-// }
-
-// TEST_CASE("sqrt(2147483647 )", "Max int to calc is 2147395600"){
-//   exact_square_root::ExactSquareRoot esr{2147395600};
-//   std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
-//   std::vector<std::pair<int, int>> expected {{-1, 46340}};  
-//   REQUIRE(r.size() == 1);
-//   for(int i = 0; i < r.size(); ++i){
-//     REQUIRE(r.at(i).multiplicator == expected.at(i).first);
-//     REQUIRE(r.at(i).square_root == expected.at(i).second);
-//   }
-// }
-
-TEST_CASE ("SetSqrtAndRadicand 9", ""){
+TEST_CASE("sqrt(9)", ""){
   exact_square_root::ExactSquareRoot esr{9};
-  std::vector<std::pair<int, int>> expected {{2, 4}, {3, 9}};
-  esr.SetSqrtAndRadicand();
-  REQUIRE(esr.GetRadicandAndSqrts().size() == expected.size());
-  for(int i = 0; i < esr.GetRadicandAndSqrts().size(); ++i){
-    REQUIRE(esr.GetRadicandAndSqrts().at(i).first == expected.at(i).first);
-    REQUIRE(esr.GetRadicandAndSqrts().at(i).second == expected.at(i).second);
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == -1);
+  REQUIRE(r.at(0).square_root == 3);
+}
+
+TEST_CASE("sqrt(10)", ""){
+  exact_square_root::ExactSquareRoot esr{10};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
+
+TEST_CASE("sqrt(11)", ""){
+  exact_square_root::ExactSquareRoot esr{11};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
+
+TEST_CASE("sqrt(100)", ""){
+  exact_square_root::ExactSquareRoot esr{100};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == -1);
+  REQUIRE(r.at(0).square_root == 10);
+}
+
+TEST_CASE("sqrt(1000)", ""){
+  exact_square_root::ExactSquareRoot esr{1000};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  std::vector<std::pair<int, int>> expected {{2, 250}, {5, 40}, {10, 10}};
+  REQUIRE(r.size() == 3);
+  for(int i = 0; i < r.size(); ++i){
+    REQUIRE(r.at(i).multiplicator == expected.at(i).first);
+    REQUIRE(r.at(i).square_root == expected.at(i).second);
   }
 }
 
-TEST_CASE ("SetSqrtAndRadicand 50", ""){
-  exact_square_root::ExactSquareRoot esr{50};
-  std::vector<std::pair<int, int>> expected {{2, 4}, {3, 9},{4, 16},{5, 25},{6, 36},{7, 49}, {8, 64}};
-  esr.SetSqrtAndRadicand();
-  REQUIRE(esr.GetRadicandAndSqrts().size() == expected.size());
-  for(int i = 0; i < esr.GetRadicandAndSqrts().size(); ++i){
-    REQUIRE(esr.GetRadicandAndSqrts().at(i).first == expected.at(i).first);
-    REQUIRE(esr.GetRadicandAndSqrts().at(i).second == expected.at(i).second);
+TEST_CASE("Max calculble sqrt(92681)", "sqrt(max from type) * 2 - 1"){
+  // std::cout << "Max calculble sqrt : " << (std::sqrt(std::numeric_limits<int>::max()) * 2) - 1 << "\n";
+  exact_square_root::ExactSquareRoot esr{92681};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  REQUIRE(r.size() == 0);
+}
+
+TEST_CASE("sqrt(92680)", ""){
+  exact_square_root::ExactSquareRoot esr{92680};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  std::vector<std::pair<int, int>> expected {{2, 23170}};  
+  REQUIRE(r.size() == 1);
+  REQUIRE(r.at(0).multiplicator == 2);
+  REQUIRE(r.at(0).square_root == 23170);
+}
+
+TEST_CASE("sqrt(536870910)", ""){
+  exact_square_root::ExactSquareRoot esr{536870900};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  std::vector<std::pair<int, int>> expected {{2, 134217725}, {5, 21474836}, {10, 5368709}};  
+  REQUIRE(r.size() == 3);
+  for(int i = 0; i < r.size(); ++i){
+    REQUIRE(r.at(i).multiplicator == expected.at(i).first);
+    REQUIRE(r.at(i).square_root == expected.at(i).second);
   }
 }
+
+TEST_CASE("sqrt(2147483647 )", "Max int to calc is 2147395600"){
+  exact_square_root::ExactSquareRoot esr{2147395600};
+  std::vector<exact_square_root::Res> r = esr.GetExactSqrt();
+  std::vector<std::pair<int, int>> expected {{-1, 46340}};  
+  REQUIRE(r.size() == 1);
+  for(int i = 0; i < r.size(); ++i){
+    REQUIRE(r.at(i).multiplicator == expected.at(i).first);
+    REQUIRE(r.at(i).square_root == expected.at(i).second);
+  }
+}
+
+// TEST_CASE ("SetSqrtAndRadicand 9", ""){
+//   exact_square_root::ExactSquareRoot esr{9};
+//   std::vector<std::pair<int, int>> expected {{2, 4}, {3, 9}};
+//   esr.SetSqrtAndRadicand();
+//   REQUIRE(esr.GetRadicandAndSqrts().size() == expected.size());
+//   for(int i = 0; i < esr.GetRadicandAndSqrts().size(); ++i){
+//     REQUIRE(esr.GetRadicandAndSqrts().at(i).first == expected.at(i).first);
+//     REQUIRE(esr.GetRadicandAndSqrts().at(i).second == expected.at(i).second);
+//   }
+// }
+
+// TEST_CASE ("SetSqrtAndRadicand 50", ""){
+//   exact_square_root::ExactSquareRoot esr{50};
+//   std::vector<std::pair<int, int>> expected {{2, 4}, {3, 9},{4, 16},{5, 25},{6, 36},{7, 49}, {8, 64}};
+//   esr.SetSqrtAndRadicand();
+//   REQUIRE(esr.GetRadicandAndSqrts().size() == expected.size());
+//   for(int i = 0; i < esr.GetRadicandAndSqrts().size(); ++i){
+//     REQUIRE(esr.GetRadicandAndSqrts().at(i).first == expected.at(i).first);
+//     REQUIRE(esr.GetRadicandAndSqrts().at(i).second == expected.at(i).second);
+//   }
+// }
 
 // TEST_CASE ("GetOddNumbers", ""){
 //   exact_square_root::ExactSquareRoot esr20{20};
