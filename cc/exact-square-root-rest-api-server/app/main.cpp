@@ -41,6 +41,7 @@ int main() {
 
     // Einzelnes Item: /items/{id}
     svr.Get(R"(/exactSquareRoot/(\d+))", [&](const httplib::Request& req, httplib::Response& res) {
+        // res.set_header("Access-Control-Allow-Origin", "*");
         int radicand = std::stoi(req.matches[1].str());
         std::lock_guard<std::mutex> lock(mtx);
         exact_square_root::ExactSquareRoot esr{radicand};
@@ -90,11 +91,11 @@ int main() {
     // });
 
     // Einfache CORS-Unterstützung (optional)
-    svr.set_error_handler([](const httplib::Request& req, httplib::Response& res) {
-      res.set_header("Access-Control-Allow-Origin", "*");
-      res.set_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-      res.set_header("Access-Control-Allow-Headers", "Content-Type");
-    });
+    // svr.set_error_handler([](const httplib::Request& req, httplib::Response& res) {
+    //   res.set_header("Access-Control-Allow-Origin", "*");
+    //   res.set_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+    //   res.set_header("Access-Control-Allow-Headers", "Content-Type");
+    // });
 
     svr.Options(R"(/(.*))", [&](const httplib::Request& req, httplib::Response& res) {
         res.set_header("Access-Control-Allow-Origin", "*");
