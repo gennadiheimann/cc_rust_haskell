@@ -47,7 +47,7 @@ ctest
 curl http://localhost:8081/exactSquareRoot/1000
 ```
 
-### BUild exact-square-root-rest-api-server image
+### Build exact-square-root-rest-api-server image
 
 ``` console
 cd cc/exact-square-root-rest-api-server
@@ -87,7 +87,7 @@ cargo test
 curl http://localhost:8083/exactSquareRoot/1000
 ```
 
-### BUild exact-square-root-rest-api-server image
+### Build exact-square-root-rest-api-server image
 
 ``` console
 cd rust/exact-square-root-rest-api-server
@@ -104,7 +104,7 @@ docker run -rm -it -p 8081:8081 rust_rest_api_server_sqrt:latest
 ### develop in VSCode
 
 ```console
-cd cc
+cd rust
 code .
 ```
 
