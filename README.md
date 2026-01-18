@@ -20,12 +20,12 @@ digraph Arcitecture {
 ## Exact sqrt logic
 
 The calculation uses the sum of the odd numbers.
-1 + 3 = [4]
-4 + 5 = [4,9]
-9 + 7 = [4,9,16]
-16 + 9 = [4,9,16,25]
-25 + 11 = [4,9,16,25,36]
-36 + 13 = [4,9,16,25,36,49]
+1 + 3 = [4] 
+4 + 5 = [4,9] 
+9 + 7 = [4,9,16] 
+16 + 9 = [4,9,16,25] 
+25 + 11 = [4,9,16,25,36] 
+36 + 13 = [4,9,16,25,36,49] 
 
 The logic consists of three parts:
 
@@ -129,7 +129,7 @@ code .
 ## HASKELL
 
 ### on work
- 
+
 ### create project
 
 ```console
