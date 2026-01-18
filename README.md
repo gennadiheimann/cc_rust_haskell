@@ -17,6 +17,24 @@ digraph Arcitecture {
 }
 ```
 
+## Exact sqrt logic
+
+The calculation uses the sum of the odd numbers.
+1 + 3 = [4]
+4 + 5 = [4,9]
+9 + 7 = [4,9,16]
+16 + 9 = [4,9,16,25]
+25 + 11 = [4,9,16,25,36]
+36 + 13 = [4,9,16,25,36,49]
+
+The logic consists of three parts:
+
+A list is created containing radicands and their corresponding square root values.
+
+A simple solution is searched for in this list. If one is found, no further calculation is performed. If not, a complex solution is searched for (multiplicator * sqrt(radicand)).
+
+All radicands from the first list are divided by the given radicand. If a division without remainder exists, a complex solution is found. (Multiple solutions may exist; see the solution for radicand 1000.) If no such division is found, then no solution exists for the radicand.
+
 ## Run project with all services
 
 ```console
@@ -110,7 +128,8 @@ code .
 
 ## HASKELL
 
-
+### on work
+ 
 ### create project
 
 ```console
