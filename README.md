@@ -115,8 +115,8 @@ docker build -t rust_rest_api_server_sqrt .
 ### Run exact-square-root-rest-api-server container
 
 ```console  
-cd cc/exact_square_root_rest_api_server
-docker run -rm -it -p 8081:8081 rust_rest_api_server_sqrt:latest
+cd rust/exact_square_root_rest_api_server
+docker run -rm -it -p 8083:8083 rust_rest_api_server_sqrt:latest
 ```
 
 ### develop in VSCode
@@ -128,45 +128,39 @@ code .
 
 ## HASKELL
 
-### on work
-
-### create project
+### Build, Run, Test 
 
 ```console
-stack setup
-stack templates
-stack new hello_world
+stack buid
+stack test
+stack exec exact-square-root-rest-api-server-exe
 ```
 
-### haskell rest api
+### Access rest api in container
 
 ```console
-curl http://localhost:8082/exactSquareRoot/
+curl http://localhost:8082/exactSquareRoot/1000
 ```
 
-### start docker rest api server haskell (exact square root)
+### Build exact-square-root-rest-api-server image
 
-```console
-# go to project
+``` console
 cd haskell/exact-square-root-rest-api-server
-# create image
-docker build -t image_haskell_exact_square_root_rest_api_server .
-# for test run container in bash
-docker run -it -v $(pwd):/app image_haskell_exact_square_root_rest_api_server:latest bash
-# run container with publish port 8082 and run rest api server
-# first time
-docker run -it --name haskell_exact_square_root_rest_api_server -p 8082:8082 -v $(pwd):/app image_haskell_exact_square_root_rest_api_server /app/start.sh
-# start container next time
-docker start -i haskell_exact_square_root_rest_api_server
-# stop container 
-docker stop haskell_exact_square_root_rest_api_server
+docker build -t haskell_rest_api_server_sqrt .
 ```
 
-## multistage image
+### Run exact-square-root-rest-api-server container
+
+```console  
+cd haskell/exact_square_root_rest_api_server
+docker run -rm -it -p 8082:8082 rust_rest_api_server_sqrt:latest
+```
+
+### develop in VSCode
 
 ```console
-docker build -t haskell_rest_api_server_sqrt .
-docker run -it -p 8082:8082 haskell_rest_api_server_sqrt:latest /app/exact-square-root-rest-api-server-exe
+cd rust
+code .
 ```
 
 ## WEB CLIENT
