@@ -153,13 +153,13 @@ docker build -t haskell_rest_api_server_sqrt .
 
 ```console  
 cd haskell/exact_square_root_rest_api_server
-docker run -rm -it -p 8082:8082 rust_rest_api_server_sqrt:latest
+docker run -rm -it -p 8082:8082 haskell_rest_api_server_sqrt:latest
 ```
 
 ### develop in VSCode
 
 ```console
-cd rust
+cd haskell
 code .
 ```
 
