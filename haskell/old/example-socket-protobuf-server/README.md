@@ -1,1 +1,0 @@
-# example-socket-protobuf-server
