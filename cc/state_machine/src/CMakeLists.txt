@@ -1,5 +1,6 @@
 set(LIBRARY_SOURCES
-  "state_machine_door.cpp")
+  "state_machine_door.cpp"
+  "state_machine_tic_tac_toe.cpp")
 
 set(LIBRARY_INCLUDES
   "./" 
