@@ -1,6 +1,7 @@
+module TicTacToeGPTPure 
+where
 
 -- Pure Datenstrukturen
-
 data Player = X | O deriving (Eq, Show)
 
 type Board = [Maybe Player]

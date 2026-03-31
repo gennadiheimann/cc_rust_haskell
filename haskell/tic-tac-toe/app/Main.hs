@@ -1,6 +1,8 @@
 import Control.Monad.State
 import Data.List (intercalate)
 
+import TicTacToeGPTPure
+
 -- IO Layer (nur UI!)
 {-
 drop n xs entfernt die ersten n Elemente einer Liste und gibt den Rest zurück.

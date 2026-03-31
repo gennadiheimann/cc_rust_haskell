@@ -1,3 +1,4 @@
+{- 
 {-# LANGUAGE DeriveFunctor #-}
 
 import Control.Monad.State
@@ -75,3 +76,4 @@ gameLoop = do
 -- Main
 main :: IO ()
 main = evalStateT gameLoop initState
+-}
