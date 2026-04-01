@@ -78,4 +78,15 @@ makeMovePure i gs
         }
 
 
+'makeMovePure :: Int -> GameState -> GameState
+'makeMovePure i gs
+  | i < 0 || i > 8 = gs { state = GameError "Ungültiges Feld" }
+  | board gs !! i /= Nothing = gs { state = GameError "Feld belegt" }
+  | otherwise = gs
+        { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
+        , current = switch (current gs)
+        , state = PlayerTurn
+        }
+
+
 
