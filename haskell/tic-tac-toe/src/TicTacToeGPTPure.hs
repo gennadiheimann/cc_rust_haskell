@@ -5,17 +5,32 @@ where
 data Player = X | O deriving (Eq, Show)
 
 type Board = [Maybe Player]
+{-
+States:
+  - Init state
+  - Player (X or O) turns
+  - Gameover
+  - Game report 
+-}
+{-
+Transitions:
+  - X or O turns
+  - X or O wons
+  - Report
+-}
+
+data States = Init | PlayerTurn | GameOver__ | Report__ | GameError String deriving Show
 
 data GameState = GameState
   { board   :: Board
   , current :: Player
+  , state   :: States
   } deriving Show
 
+data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
+
 -- Pure State Machine Step Function
-
 stepGame :: Int -> GameState -> (Either String GameState, GameStatus)
-data GameStatus = Running | Won Player | Draw deriving Show
-
 stepGame move gs =
   case makeMovePure move gs of
     Left err -> (Left err, Running)
@@ -45,7 +60,7 @@ isDraw = all (/= Nothing)
 -- Reine Spiellogik (PURE, KEIN IO)
 
 initState :: GameState
-initState = GameState (replicate 9 Nothing) X
+initState = GameState (replicate 9 Nothing) X Init
 
 switch :: Player -> Player
 switch X = O
@@ -59,6 +74,7 @@ makeMovePure i gs
       Right gs
         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
         , current = switch (current gs)
+        , state = PlayerTurn
         }
 
 
