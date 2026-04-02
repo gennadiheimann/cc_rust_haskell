@@ -19,7 +19,7 @@ Transitions:
   - Report
 -}
 
-data States = Init | PlayerTurn | GameOver__ | Report__ | GameError String deriving Show
+data States = Init | PlayerTurn | GameOver__ Player | Report__ | GameError String | Draw__ deriving Show
 
 data GameState = GameState
   { board   :: Board
@@ -30,17 +30,30 @@ data GameState = GameState
 data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
 
 -- Pure State Machine Step Function
-stepGame :: Int -> GameState -> (Either String GameState, GameStatus)
-stepGame move gs =
-  case makeMovePure move gs of
-    Left err -> (Left err, Running)
-    Right gs' ->
+-- stepGame :: Int -> GameState -> (Either String GameState, GameStatus)
+-- stepGame move gs =
+--   case makeMovePure move gs of
+--     Left err -> (Left err, Running)
+--     Right gs' ->
+--       let p = switch (current gs') -- vorheriger Spieler
+--       in if checkWin (board gs') p
+--            then (Right gs', Won p)
+--            else if isDraw (board gs')
+--                 then (Right gs', Draw)
+--                 else (Right gs', Running)
+
+stepGame' :: Int -> GameState -> GameState
+stepGame' move gs =
+  case makeMovePure' move gs of
+    GameState{state = GameError err} -> gs { state = GameError err }
+    gs'@GameState{state = PlayerTurn} ->
       let p = switch (current gs') -- vorheriger Spieler
       in if checkWin (board gs') p
-           then (Right gs', Won p)
+           then gs' { state = GameOver__ p } -- oder eine andere passende State
            else if isDraw (board gs')
-                then (Right gs', Draw)
-                else (Right gs', Running)
+                then gs' { state = Draw__ }
+                else gs'{ state = PlayerTurn }
+
 
 -- Gewinnlogik (PURE)
 
@@ -78,8 +91,8 @@ makeMovePure i gs
         }
 
 
-'makeMovePure :: Int -> GameState -> GameState
-'makeMovePure i gs
+makeMovePure' :: Int -> GameState -> GameState
+makeMovePure' i gs
   | i < 0 || i > 8 = gs { state = GameError "Ungültiges Feld" }
   | board gs !! i /= Nothing = gs { state = GameError "Feld belegt" }
   | otherwise = gs
