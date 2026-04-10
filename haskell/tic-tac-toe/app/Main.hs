@@ -73,8 +73,8 @@ gameLoop = do
     [(n,"")] -> do
       let gs' = stepGame' (n-1) gs
       case gs' of
-        GameState{state = GameError err} -> printToConsole err >> gameLoop
-        gs'@GameState{state = PlayerTurn} -> do
+        GameState{state__ = GameError err} -> printToConsole err >> gameLoop
+        gs'@GameState{state__ = PlayerTurn} -> do
           put gs'
           -- case status of
           --   Running -> gameLoop

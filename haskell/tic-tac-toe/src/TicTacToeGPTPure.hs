@@ -24,7 +24,7 @@ data States = Init | PlayerTurn | GameOver__ Player | Report__ | GameError Strin
 data GameState = GameState
   { board   :: Board
   , current :: Player
-  , state   :: States
+  , state__   :: States
   } deriving Show
 
 data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
@@ -45,14 +45,14 @@ data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
 stepGame' :: Int -> GameState -> GameState
 stepGame' move gs =
   case makeMovePure' move gs of
-    GameState{state = GameError err} -> gs { state = GameError err }
-    gs'@GameState{state = PlayerTurn} ->
+    GameState{state__ = GameError err} -> gs { state__ = GameError err }
+    gs'@GameState{state__ = PlayerTurn} ->
       let p = switch (current gs') -- vorheriger Spieler
       in if checkWin (board gs') p
-           then gs' { state = GameOver__ p } -- oder eine andere passende State
+           then gs' { state__ = GameOver__ p } -- oder eine andere passende State
            else if isDraw (board gs')
-                then gs' { state = Draw__ }
-                else gs'{ state = PlayerTurn }
+                then gs' { state__ = Draw__ }
+                else gs'{ state__ = PlayerTurn }
 
 
 -- Gewinnlogik (PURE)
@@ -87,18 +87,18 @@ makeMovePure i gs
       Right gs
         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
         , current = switch (current gs)
-        , state = PlayerTurn
+        , state__ = PlayerTurn
         }
 
 
 makeMovePure' :: Int -> GameState -> GameState
 makeMovePure' i gs
-  | i < 0 || i > 8 = gs { state = GameError "Ungültiges Feld" }
-  | board gs !! i /= Nothing = gs { state = GameError "Feld belegt" }
+  | i < 0 || i > 8 = gs { state__ = GameError "Ungültiges Feld" }
+  | board gs !! i /= Nothing = gs { state__ = GameError "Feld belegt" }
   | otherwise = gs
         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
         , current = switch (current gs)
-        , state = PlayerTurn
+        , state__ = PlayerTurn
         }
 
 
