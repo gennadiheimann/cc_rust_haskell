@@ -58,7 +58,9 @@ printToConsole s = liftIO $ putStrLn s
 --             Draw    -> printToConsole "Unentschieden!"
 --             GameOver -> printToConsole "Spiel beendet!"
 --             Report  -> printToConsole "Spielbericht"
---     _ -> (printToConsole "Ungültige Eingabe") >> gameLoop
+--     _ -> (printToConsole "Invalid input") >> gameLoop
+
+-- Zahlen ausserhalb (1-9) werden nicht erkannt und kein Fehler wird geworfen
 
 gameLoop :: StateT GameState IO ()
 gameLoop = do
@@ -66,23 +68,36 @@ gameLoop = do
   -- liftIO $ printBoard (board gs)
   printToConsole (getBoardString (board gs))
   printToConsole "State: PlayerTurn"
-  printToConsole ("Spieler " ++ show (current gs) ++ " (1-9):")
+  printToConsole ("Player " ++ show (current gs) ++ " (1-9):")
   input <- liftIO getLine
 
   case reads input of
-    [(n,"")] -> do
+    [(n,"")] | n >= 1 && n <= 9 -> do
       let gs' = stepGame' (n-1) gs
       case gs' of
         GameState{state__ = GameError err} -> printToConsole err >> gameLoop
-        gs'@GameState{state__ = PlayerTurn} -> do
-          put gs'
+        gs''@GameState{state__ = PlayerTurn} -> do
+          put gs''
+          gameLoop
+        gs''@GameState{state__ = GameOver__ p} -> do
+          put gs''
+          printToConsole ("Won: " ++ show p)
+        gs''@GameState{state__ = Draw__} -> do
+          put gs''
+          printToConsole "Draw!"
+        gs''@GameState{state__ = Report__} -> do
+          put gs''
+          printToConsole "Report"
+        gs''@GameState{state__ = Init} -> do
+          put gs''
+          printToConsole "Game started!"
           -- case status of
           --   Running -> gameLoop
           --   Won p   -> printToConsole ("Gewonnen: " ++ show p)
           --   Draw    -> printToConsole "Unentschieden!"
           --   GameOver -> printToConsole "Spiel beendet!"
           --   Report  -> printToConsole "Spielbericht"
-    _ -> (printToConsole "Ungültige Eingabe") >> gameLoop
+    _ -> (printToConsole "Invalid input (1-9)") >> gameLoop
 
 main :: IO ()
 main = evalStateT gameLoop initState

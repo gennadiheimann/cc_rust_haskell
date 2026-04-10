@@ -81,8 +81,8 @@ switch O = X
 
 makeMovePure :: Int -> GameState -> Either String GameState
 makeMovePure i gs
-  | i < 0 || i > 8 = Left "Ungültiges Feld"
-  | board gs !! i /= Nothing = Left "Feld belegt"
+  | i < 0 || i > 8 = Left "Ungueltiges Feld"
+  | board gs !! i /= Nothing = Left "Field occupied"
   | otherwise =
       Right gs
         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
@@ -93,8 +93,8 @@ makeMovePure i gs
 
 makeMovePure' :: Int -> GameState -> GameState
 makeMovePure' i gs
-  | i < 0 || i > 8 = gs { state__ = GameError "Ungültiges Feld" }
-  | board gs !! i /= Nothing = gs { state__ = GameError "Feld belegt" }
+  | i < 0 || i > 8 = gs { state__ = GameError "Ungueltiges Feld" }
+  | board gs !! i /= Nothing = gs { state__ = GameError "Field occupied" }
   | otherwise = gs
         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
         , current = switch (current gs)
