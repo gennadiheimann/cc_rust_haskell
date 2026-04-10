@@ -27,7 +27,7 @@ data GameState = GameState
   , state__   :: States
   } deriving Show
 
-data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
+-- data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
 
 -- Pure State Machine Step Function
 -- stepGame :: Int -> GameState -> (Either String GameState, GameStatus)
@@ -42,9 +42,12 @@ data GameStatus = Running | Won Player | Draw | GameOver| Report deriving Show
 --                 then (Right gs', Draw)
 --                 else (Right gs', Running)
 
-stepGame' :: Int -> GameState -> GameState
-stepGame' move gs =
-  case makeMovePure' move gs of
+turn :: Int -> GameState -> GameState
+turn move gs 
+  | checkInput move = gs { state__ = GameError "Invalid field. Please enter a number between 1 and 9." }
+  | isFieldOccupied move gs = gs { state__ = GameError "Field occupied. Please choose another field." }
+  | otherwise =
+  case makeMove move gs of
     GameState{state__ = GameError err} -> gs { state__ = GameError err }
     gs'@GameState{state__ = PlayerTurn} ->
       let p = switch (current gs') -- vorheriger Spieler
@@ -53,6 +56,8 @@ stepGame' move gs =
            else if isDraw (board gs')
                 then gs' { state__ = Draw__ }
                 else gs'{ state__ = PlayerTurn }
+
+
 
 
 -- Gewinnlogik (PURE)
@@ -79,23 +84,31 @@ switch :: Player -> Player
 switch X = O
 switch O = X
 
-makeMovePure :: Int -> GameState -> Either String GameState
-makeMovePure i gs
-  | i < 0 || i > 8 = Left "Ungueltiges Feld"
-  | board gs !! i /= Nothing = Left "Field occupied"
-  | otherwise =
-      Right gs
-        { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
-        , current = switch (current gs)
-        , state__ = PlayerTurn
-        }
+-- makeMovePure :: Int -> GameState -> Either String GameState
+-- makeMovePure i gs
+--   | i < 0 || i > 8 = Left "Ungueltiges Feld"
+--   | board gs !! i /= Nothing = Left "Field occupied"
+--   | otherwise =
+--       Right gs
+--         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
+--         , current = switch (current gs)
+--         , state__ = PlayerTurn
+--         }
+
+checkInput :: Int -> Bool
+checkInput i = i < 0 || i > 8 
+
+isFieldOccupied :: Int -> GameState -> Bool
+isFieldOccupied i gs = board gs !! i /= Nothing
+--   | board gs !! i /= Nothing = gs { state__ = GameError "Field occupied" }
 
 
-makeMovePure' :: Int -> GameState -> GameState
-makeMovePure' i gs
-  | i < 0 || i > 8 = gs { state__ = GameError "Ungueltiges Feld" }
-  | board gs !! i /= Nothing = gs { state__ = GameError "Field occupied" }
-  | otherwise = gs
+makeMove :: Int -> GameState -> GameState
+makeMove i gs 
+  -- | i < 0 || i > 8 = gs { state__ = GameError "Invalid field. Please enter a number between 1 and 9." }
+  -- | board gs !! i /= Nothing = gs { state__ = GameError "Field occupied" }
+  -- | otherwise 
+  = gs
         { board = take i (board gs) ++ [Just (current gs)] ++ drop (i+1) (board gs)
         , current = switch (current gs)
         , state__ = PlayerTurn

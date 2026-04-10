@@ -72,8 +72,8 @@ gameLoop = do
   input <- liftIO getLine
 
   case reads input of
-    [(n,"")] | n >= 1 && n <= 9 -> do
-      let gs' = stepGame' (n-1) gs
+    [(n,"")] -> do
+      let gs' = turn (n-1) gs
       case gs' of
         GameState{state__ = GameError err} -> printToConsole err >> gameLoop
         gs''@GameState{state__ = PlayerTurn} -> do
@@ -99,5 +99,8 @@ gameLoop = do
           --   Report  -> printToConsole "Spielbericht"
     _ -> (printToConsole "Invalid input (1-9)") >> gameLoop
 
+startGame :: IO ()
+startGame = evalStateT gameLoop initState
+
 main :: IO ()
-main = evalStateT gameLoop initState
+main = startGame
