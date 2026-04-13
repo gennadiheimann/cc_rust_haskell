@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket JSON Beispiel</title>
+</head>
+<body>
+
+<h2>Benutzerdaten</h2>
+
+<input type="text" id="vorname" placeholder="Vorname"><br><br>
+<input type="text" id="nachname" placeholder="Nachname"><br><br>
+
+<button id="sendBtn">Senden</button>
+
+<h3>Antwort:</h3>
+<p id="output"></p>
+
+<script>
+    const ws = new WebSocket("ws://localhost:8765");
+
+    ws.onopen = () => {
+        console.log("Verbunden");
+    };
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+
+        if (data.type === "response") {
+            document.getElementById("output").innerText =
+                data.message;
+        }
+    };
+
+    document.getElementById("sendBtn").addEventListener("click", () => {
+        const vorname = document.getElementById("vorname").value;
+        const nachname = document.getElementById("nachname").value;
+
+        const payload = {
+            "type": "user_data",
+            "vorname": vorname,
+            "nachname": nachname
+        };
+
+        ws.send(JSON.stringify(payload));
+    });
+</script>
+
+</body>
+</html>
