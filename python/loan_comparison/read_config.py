@@ -3,47 +3,110 @@ import tomllib
 with open("config.toml", "rb") as f:
     config = tomllib.load(f)
 
-print(config["title"])
-print(config["bsv"]["bs_sum"])
-print(config["bsv"]["deposit_rates_decimal"])
-print(config["bsv"]["minimum_saving_amount_decimal"])
-print(config["bsv"]["acquisition_fee_decimal"])
-print(config["bsv"]["saving_time"])
-print(config["bsv"]["saving_rate"])
+# print(config["title"])
+# print(config["bsv"]["bs_sum"])
+# print(config["bsv"]["deposit_rates_decimal"])
+# print(config["bsv"]["minimum_saving_amount_decimal"])
+# print(config["bsv"]["acquisition_fee_decimal"])
+# print(config["bsv"]["saving_time"])
+# print(config["bsv"]["saving_rate"])
 
+#==============================================================================
+# Read Configs
+#==============================================================================
 
-bs_sum = float(config["bsv"]["bs_sum"])
-deposit_rates_decimal = float(config["bsv"]["deposit_rates_decimal"])
-minimum_saving_amount_decimal = float(config["bsv"]["minimum_saving_amount_decimal"])
-acquisition_fee_decimal = float(config["bsv"]["acquisition_fee_decimal"])
-saving_time = float(config["bsv"]["saving_time"])
-saving_rate = float(config["bsv"]["saving_rate"])
+bs_summe = float(config["bsv"]["bs_sum"])
+guthaben_zins = float(config["bsv"]["deposit_rates_decimal"])
+minsest_ansparung = float(config["bsv"]["minimum_saving_amount_decimal"])
+abschlus_gebuehr = float(config["bsv"]["acquisition_fee_decimal"])
+ansparzeit = int(config["bsv"]["saving_time"])
+ansparrate = float(config["bsv"]["saving_rate"])
 
-saving_amount_after_saving_time = (saving_time * saving_rate) -  (bs_sum * acquisition_fee_decimal)
-print(saving_amount_after_saving_time)
-saving_amount_after_saving_time_with_deposit_rate = saving_amount_after_saving_time + (saving_amount_after_saving_time * deposit_rates_decimal)
+def calc_saving_amount(ansparzeit, ansparrate, bs_summe, guthaben_zins, abschlus_gebuehr):
+    monatszins = guthaben_zins / 12
+    kapital = 0.0
+    for _ in range(ansparzeit):
+        kapital = kapital * (1 + monatszins) + ansparrate
+    return kapital - (bs_summe * abschlus_gebuehr)
 
+# Guthaben nach Ansparzeit
+kapital = calc_saving_amount(
+    ansparzeit=ansparzeit, 
+    ansparrate=ansparrate, 
+    bs_summe=bs_summe, 
+    guthaben_zins=guthaben_zins, 
+    abschlus_gebuehr=abschlus_gebuehr)
 
-
-rate = saving_rate
-jahreszins = deposit_rates_decimal
-jahre = saving_time / 12
-
-monatszins = jahreszins / 12
-monate = jahre * 12
-
-kapital = 0.0
-
-for _ in range(int(monate)):
-    kapital = kapital * (1 + monatszins) + rate
-
-eingezahlt = rate * monate
-zinsen = kapital - eingezahlt
-kapital_mit_abschlussgebuer = kapital - (bs_sum * acquisition_fee_decimal)
-kredit = bs_sum * minimum_saving_amount_decimal - kapital_mit_abschlussgebuer
+# Finazierung für die Teilung
+rest_zu_finanzieren = (bs_summe * minsest_ansparung) - kapital
 
 print(f"Kapital: {kapital:.2f}")
-print(f"Zinsen: {zinsen:.2f}")
-print(f"Abschlussgebühr: {bs_sum * acquisition_fee_decimal:.2f}")
-print(f"Kapital mit Abschlussgebühr: {kapital_mit_abschlussgebuer:.2f}")
-print(f"Kredit: {kredit:.2f}")
+print(f"Rest zu Finanzieren: {rest_zu_finanzieren:.2f}")
+
+#=======================================================================================
+# Kredit
+#=======================================================================================
+
+# Pramietern für Kredit für Teilung
+# Zins
+
+# Rest zu Finanzieren 
+
+def berechne_kredit(kreditsumme, zinssatz_jahr, laufzeit_jahre):
+    i = zinssatz_jahr / 100 / 12        # monatlicher Zinssatz
+    n = laufzeit_jahre * 12             # Anzahl Monate
+
+    # Annuität (monatliche Rate)
+    rate = kreditsumme * (i * (1 + i) ** n) / ((1 + i) ** n - 1)
+
+    restschuld = kreditsumme
+
+    print(f"Monatliche Rate: {rate:.2f} €\n")
+    print("Monat | Rate   | Zinsen | Tilgung | Restschuld")
+    
+    zinsen_gesamt_zeit = 0.0
+    
+    for monat in range(1, n + 1):
+        zinsen = restschuld * i
+        tilgung = rate - zinsen
+        restschuld -= tilgung
+        zinsen_gesamt_zeit += zinsen
+
+        print(f"{monat:5d} | {rate:7.2f} | {zinsen:7.2f} | {tilgung:8.2f} | {restschuld:10.2f}")
+
+    print(f"Zinsen über gesamte Zeit: {zinsen_gesamt_zeit:.2f}")
+
+berechne_kredit(kreditsumme=rest_zu_finanzieren, zinssatz_jahr=6.0, laufzeit_jahre=int(ansparzeit / 12)) 
+
+#==============================================================================
+# Darlehenphase
+#==============================================================================
+
+#========================================================================================
+# export
+#========================================================================================
+"""
+import csv
+
+daten = [
+    {
+        "Bausparsumme": bs_summe, 
+        "Ansparungszeit in Monaten": ansparzeit, 
+        "Ansparbetrag - Anschlussgebühr" : kapital_mit_abschlussgebuer},
+]
+
+with open("export.csv", mode="w", newline="", encoding="utf-8") as file:
+    # fieldnames = ["Vorname", "Nachname", "Alter"]
+    # writer = csv.DictWriter(file, fieldnames=fieldnames)
+    # writer.writeheader()
+    # writer.writerows(daten)
+    
+    writer = csv.writer(file)
+    # Kopfzeile
+    #writer.writerow(["Vorname", "Nachname", "Alter"])
+
+    # Daten
+    writer.writerow(["Bausparsumme", bs_summe])
+    writer.writerow(["Ansparungszeit in Monaten", ansparzeit])
+    writer.writerow(["Ansparbetrag - Anschlussgebühr", kapital_mit_abschlussgebuer])
+""" 
