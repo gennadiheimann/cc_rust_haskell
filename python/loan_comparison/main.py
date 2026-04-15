@@ -2,7 +2,7 @@ from configuration import ConfigReader
 from bauspar import Bauspar
 from loan import Loan
 
-config = ConfigReader("config.toml")
+config = ConfigReader("config_v2.toml")
 
 print(f"Tilgungsfreie Finanzierung")
 tilgungsfreie_darlehen_zins_gesamt = config.bausparsumme * config.tilgungsfreie_darlehen_zins * config.ansparen_zeit / 12
@@ -15,7 +15,6 @@ bauspar = Bauspar(config)
 saving_amount = bauspar.calculate_saving_amount()
 print(f"Gesamte Ansparung für {config.bausparsumme} EUR in {config.ansparen_zeit} Monaten: {saving_amount:.2f} EUR")
 print(f"Ansparrate: {config.ansparen_rate:.2f} EUR pro Monat\n")
-
 
 print(f"Rest zu finanzieren: {(config.bausparsumme * config.mindest_ansparung) - saving_amount:.2f} EUR")
 loan = Loan(config)
