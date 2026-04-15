@@ -1,4 +1,7 @@
-import tomllib 
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
 
 with open("config.toml", "rb") as f:
     config = tomllib.load(f)
