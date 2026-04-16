@@ -18,7 +18,7 @@ acquisition_fee_decimal = 0.016
 # Ansparzeit in Monaten
 saving_time = 120
 # Ansparrate monatlich in Euro
-saving_rate = 150
+saving_rate = 200
 # Darlehenphase = loan_phase
 #Fest Sollzins in %
 fixed_interest_rate_decimal = 0.0249

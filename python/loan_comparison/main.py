@@ -53,7 +53,7 @@ darlehens_ohne_bsv = [
     (-1, config.darlehen_ohne_bsv_laufzeit_31_40, config.darlehen_ohne_bsv_zins_prognose_31_40)
 ]
 
-restschuld_gesamtzinsen = loan.calculate_remaining_debt_and_total_interest(config.bausparsumme, darlehens_ohne_bsv, print_on = True)
+restschuld_gesamtzinsen = loan.calculate_remaining_debt_and_total_interest(config.bausparsumme, darlehens_ohne_bsv, print_on = False)
 for (restschuld, gesamtzinsen_periode, gesamtzinsen) in restschuld_gesamtzinsen:
     print(f"Restschuld: {restschuld:.2f} EUR und gezahlte Zinsen in Periode: {gesamtzinsen_periode:.2f} EUR, Gesamtzinsen: {gesamtzinsen:.2f} EUR\n")
 # print(f"Restschuld nach 0-10 Jahre: {darlehen_ohne_bsv_0_10_restschuld:.2f} EUR und gezahlte Zinsen: {darlehen_ohne_bsv_0_10_gesamtzinsen:.2f} EUR\n")

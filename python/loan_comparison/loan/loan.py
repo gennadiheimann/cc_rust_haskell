@@ -90,14 +90,20 @@ class Loan:
                 tilgung = loan_payment_monthly - zinsen
                 restschuld_ -= tilgung
                 total_interest_tmp += zinsen
+
+                if restschuld_ < 0:
+                    # tilgung += restschuld_
+                    restschuld_ += tilgung
+                    break
+
                 if print_on:
                     print(f"{monat:5d} | {loan_payment_monthly:7.2f} | {zinsen:7.2f} | {tilgung:8.2f} | {restschuld_:10.2f}")
 
             if print_on:
                 print(f"Restschuld nach {laufzeit} Monaten: {restschuld_:.2f} EUR und gezahlte Zinsen: {total_interest_tmp:.2f} EUR\n")
 
-            if restschuld_ > 0:
-                restschuld_and_total_interest.append((restschuld_, total_interest_tmp, total_interest_))
+            # if restschuld_ > 0:
+            restschuld_and_total_interest.append((restschuld_, total_interest_tmp, total_interest_))
 
         return restschuld_and_total_interest
         
