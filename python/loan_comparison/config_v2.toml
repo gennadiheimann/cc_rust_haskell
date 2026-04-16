@@ -30,3 +30,15 @@ interest_prinipal_paymants_mounthly_decimal = 0.0035
 [instalment_loan]
 interest_rate_decimal = 0.08
 
+# Darlehen ohen BSV
+[loan_without_bsv]
+interest_rate_forcast_0_10_decimal = 0.0436
+duration_in_months_0_10 = 120
+interest_rate_forcast_11_20_decimal = 0.04
+duration_in_months_11_20 = 120
+interest_rate_forcast_21_30_decimal = 0.04
+duration_in_months_21_30 = 120
+interest_rate_forcast_31_40_decimal = 0.04
+duration_in_months_31_40 = 120
+
+

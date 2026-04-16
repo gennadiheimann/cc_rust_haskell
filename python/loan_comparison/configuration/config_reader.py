@@ -22,3 +22,12 @@ class ConfigReader:
         # Darlehen
         self.darlehen_zins = float(config["bsv"]["fixed_interest_rate_decimal"])
         self.darlehen_rate = float(config["bsv"]["interest_prinipal_paymants_mounthly_decimal"])
+        # Darlehen ohne BSV
+        self.darlehen_ohne_bsv_zins_prognose_0_10 = float(config["loan_without_bsv"]["interest_rate_forcast_0_10_decimal"])
+        self.darlehen_ohne_bsv_laufzeit_0_10 = int(config["loan_without_bsv"]["duration_in_months_0_10"])
+        self.darlehen_ohne_bsv_zins_prognose_11_20 = float(config["loan_without_bsv"]["interest_rate_forcast_11_20_decimal"])
+        self.darlehen_ohne_bsv_laufzeit_11_20 = int(config["loan_without_bsv"]["duration_in_months_11_20"])
+        self.darlehen_ohne_bsv_zins_prognose_21_30 = float(config["loan_without_bsv"]["interest_rate_forcast_21_30_decimal"])
+        self.darlehen_ohne_bsv_laufzeit_21_30 = int(config["loan_without_bsv"]["duration_in_months_21_30"])
+        self.darlehen_ohne_bsv_zins_prognose_31_40 = float(config["loan_without_bsv"]["interest_rate_forcast_31_40_decimal"])
+        self.darlehen_ohne_bsv_laufzeit_31_40 = int(config["loan_without_bsv"]["duration_in_months_31_40"])
