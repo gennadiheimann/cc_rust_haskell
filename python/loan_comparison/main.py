@@ -1,6 +1,7 @@
 from configuration import ConfigReader
 from bauspar import Bauspar
 from loan import Loan
+from export import Exporter
 
 config = ConfigReader("config_v2.toml")
 
@@ -56,4 +57,26 @@ darlehens_ohne_bsv = [
 restschuld_gesamtzinsen = loan.calculate_remaining_debt_and_total_interest(config.bausparsumme, darlehens_ohne_bsv, print_on = False)
 for (restschuld, gesamtzinsen_periode, gesamtzinsen) in restschuld_gesamtzinsen:
     print(f"Restschuld: {restschuld:.2f} EUR und gezahlte Zinsen in Periode: {gesamtzinsen_periode:.2f} EUR, Gesamtzinsen: {gesamtzinsen:.2f} EUR\n")
-# print(f"Restschuld nach 0-10 Jahre: {darlehen_ohne_bsv_0_10_restschuld:.2f} EUR und gezahlte Zinsen: {darlehen_ohne_bsv_0_10_gesamtzinsen:.2f} EUR\n")
+
+# Export der Daten
+export_data = {
+    f"Darlehenssumme": f"{config.bausparsumme:.2f}",
+    f"Tilgungsfreie Darlehen: Gesamte Zinsen für {config.ansparen_zeit} Monate": f"{tilgungsfreie_darlehen_zins_gesamt:.2f}",
+    f"Tilgungsfreie Darlehen: Monatliche Rate in EUR": f"{tilgungsfreie_darlehen_rate_monat:.2f}",
+    f"Ansparenphase: Gesamte Ansparung für {config.bausparsumme:.2f} EUR in {config.ansparen_zeit} Monaten": f"{saving_amount:.2f}",
+    f"Ansparenphase: Ansparrate pro Monat in EUR": f"{config.ansparen_rate:.2f}",
+    f"Ansparenphase: Rest zu finanzieren in EUR": f"{(config.bausparsumme * config.mindest_ansparung) - saving_amount:.2f}",
+    f"Zwischenfinanzierung: Monatliche Rate in EUR": f"{zwischenfinanzierung_rate_monat:.2f}",
+    f"Zwischenfinanzierung: Gesamtzinsen in EUR": f"{zwischenfinanzierung_zinsen_gesamt:.2f}",
+    f"Darlehenphase: Dallehensumme in EUR": f"{darlehen_bausparen:.2f}",
+    f"Darlehenphase: Monatliche Rate in EUR": f"{darlehen_bausparen_rate_monat:.2f}",
+    f"Darlehenphase: Gesamte Zinsen in EUR": f"{darlehen_gesamt_zinsen:.2f}",
+    f"Gesamtbelastung Ansparphase in EUR": f"{gesamtbelastung_0_10:.2f}",
+    f"Gesamtbelastung Darlehenphase mit Zwischenfinazierung in EUR": f"{gesamtbelastung_11_20:.2f}",
+    f"Gesamtbelastung Darlehenphase in EUR": f"{gesamtbelastung_21_30:.2f}",
+    f"Gesamtzinsen über gesamte Lufzeit in EUR": f"{(tilgungsfreie_darlehen_zins_gesamt + zwischenfinanzierung_zinsen_gesamt + darlehen_gesamt_zinsen):.2f}",
+    f"Darlehen ohne BSV: Darlehen in EUR": f"{gesamtbelastung_0_10:.2f}",
+}
+
+exporter = Exporter(export_data)
+exporter.export_to_csv("export.csv")
