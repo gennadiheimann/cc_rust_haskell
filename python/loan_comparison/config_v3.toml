@@ -1,16 +1,16 @@
-title = "Vergleich BSV <-> Kredit"
+title = "Vergleich Anschlussfinazierung Benzstr, Beethovenstr"
 version = "1.0.0"
 
 # Tilgungsfeier Darlehen
 [interest_only_mortgage]
-interest_rate_decimal = 0.0436
+interest_rate_decimal = 0.0485
 
 [bsv]
 # Sparphase = saving_phase
 # Bausparsumme in Euro
-bs_sum = 150000
+bs_sum = 67000
 # Guthabenzins in %
-deposit_rates_decimal = 0.001
+deposit_rates_decimal = 0.01
 # Mindeststansparung in %
 minimum_saving_amount_decimal = 0.35
 # Anschlussgebuehr in %
@@ -18,7 +18,7 @@ acquisition_fee_decimal = 0.016
 # Ansparzeit in Monaten
 saving_time = 120
 # Ansparrate monatlich in Euro
-saving_rate = 200
+saving_rate = 190
 # Darlehenphase = loan_phase
 #Fest Sollzins in %
 fixed_interest_rate_decimal = 0.0249
@@ -28,17 +28,17 @@ interest_prinipal_paymants_mounthly_decimal = 0.0035
 # Zwischenfinanzierung Ansparung
 # Ratenkredit
 [instalment_loan]
-interest_rate_decimal = 0.07
+interest_rate_decimal = 0.08
 
 # Darlehen ohen BSV
 [loan_without_bsv]
-interest_rate_forcast_0_10_decimal = 0.0436
+interest_rate_forcast_0_10_decimal = 0.0485
 duration_in_months_0_10 = 120
-interest_rate_forcast_11_20_decimal = 0.0436
+interest_rate_forcast_11_20_decimal = 0.04
 duration_in_months_11_20 = 120
-interest_rate_forcast_21_30_decimal = 0.0436
+interest_rate_forcast_21_30_decimal = 0.04
 duration_in_months_21_30 = 120
-interest_rate_forcast_31_40_decimal = 0.0436
+interest_rate_forcast_31_40_decimal = 0.04
 duration_in_months_31_40 = 120
 
 

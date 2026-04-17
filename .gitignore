@@ -3,3 +3,4 @@ target
 *.lock
 .stack-work
 dist
+*.pyc
