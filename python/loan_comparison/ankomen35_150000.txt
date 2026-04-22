@@ -1,0 +1,36 @@
+==Tilgungsfreies Darlehen==
+	Gesamte Zinsen für 120.0 Monate: 67500.00 EUR
+	Monatliche Rate: 562.50 EUR
+
+==Tilgungsfreies Darlehen Verlängerung==
+	Gesamte Zinsen für 60.0 Monate: 45000.00 EUR
+	Monatliche Rate: 750.00 EUR
+
+==Sparphase==
+	Gesamte Ansparung für 150000.0 EUR in 180 Monaten: 53792.75 EUR
+	Ansparrate: 310.00 EUR pro Monat
+	Zinsen: 392.75 EUR
+	Bewertungszahl: 214.02 
+
+Darlehen nache dem Ansparen: 97500.00 EUR
+Darlehensrate: 525.00 EUR pro Monat
+Laufzeit: 235 Monate (19 Jahre und 7 Monate)
+Darlehen: Gesamte Zinsen für 235 Monate: 25772.28 EUR
+
+Gesamtbelastung (monatlich) für 0-10 Jahre: 872.50 EUR
+
+Gesamtbelastung (monatlich) für 11-15 Jahre: 1060.0 EUR 
+
+Gesamtbelastung (monatlich) für 11-20 Jahre: 525.00 EUR
+
+Gesamtbelastung (monatlich) für 21-30 Jahre: 525.00 EUR
+
+Zinsen über gesamte Lufzeit: 138272.28 EUR
+
+Berechnung der Darlehen ohne BSV, Darlehen: 150000.00 EUR
+Überneheme die Monatsraten aus dem Finanzierung mit BSV
+Restschuld: 100849.10 EUR und gezahlte Zinsen in Periode: 55549.10 EUR, Gesamtzinsen: 55549.10 EUR
+
+Restschuld: 97447.87 EUR und gezahlte Zinsen in Periode: 59598.77 EUR, Gesamtzinsen: 115147.87 EUR
+
+Restschuld: 91259.68 EUR und gezahlte Zinsen in Periode: 56811.81 EUR, Gesamtzinsen: 171959.68 EUR

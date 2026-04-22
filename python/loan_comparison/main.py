@@ -5,47 +5,69 @@ from export import Exporter
 
 config = ConfigReader("config_v2.toml")
 
-print(f"Tilgungsfreie Finanzierung")
-tilgungsfreie_darlehen_zins_gesamt = config.bausparsumme * config.tilgungsfreie_darlehen_zins * config.ansparen_zeit / 12
-print(f"Tilgungsfreie Darlehen: Gesamte Zinsen für {config.ansparen_zeit} Monate: {tilgungsfreie_darlehen_zins_gesamt:.2f} EUR")
-tilgungsfreie_darlehen_rate_monat = tilgungsfreie_darlehen_zins_gesamt / config.ansparen_zeit
-print(f"Tilgungsfreie Darlehen: Monatliche Rate: {tilgungsfreie_darlehen_rate_monat:.2f} EUR\n")
-
-
-bauspar = Bauspar(config)
-saving_amount = bauspar.calculate_saving_amount()
-print(f"Gesamte Ansparung für {config.bausparsumme} EUR in {config.ansparen_zeit} Monaten: {saving_amount:.2f} EUR")
-print(f"Ansparrate: {config.ansparen_rate:.2f} EUR pro Monat\n")
-
-print(f"Rest zu finanzieren: {(config.bausparsumme * config.mindest_ansparung) - saving_amount:.2f} EUR")
+#==Tilgungsfreies Darlehen==
 loan = Loan(config)
-zwischenfinanzierung_rate_monat = loan.calculate_monthly_rate((config.bausparsumme * config.mindest_ansparung) - saving_amount)
-print(f"Restfinanzierung für {config.ansparen_zeit} Monaten: {zwischenfinanzierung_rate_monat:.2f} EUR pro Monat")
-zwischenfinanzierung_zinsen_gesamt = loan.calculate_total_interest((config.bausparsumme * config.mindest_ansparung) - saving_amount, zwischenfinanzierung_rate_monat)
-print(f"Zinsen für Restfinanzierung über {config.ansparen_zeit} Monate: {zwischenfinanzierung_zinsen_gesamt:.2f} EUR\n")
+loan.calc_interest_only_mortage()
+loan.print_interest_only_mortgage()
 
-darlehen_bausparen = config.bausparsumme - (config.bausparsumme * config.mindest_ansparung)
-print(f"Darlehen nache dem Ansparen: {darlehen_bausparen:.2f} EUR")
-print(f"Darlehensrate: {config.bausparsumme * config.darlehen_rate:.2f} EUR pro Monat")
-darlehen_bausparen_rate_monat = config.bausparsumme * config.darlehen_rate
-(darlehen_gesamt_monate, darlehen_gesamt_zinsen) = loan.calculate_total_interest_with_fix_payment(darlehen_bausparen, darlehen_bausparen_rate_monat)
-print(f"Darlehen: Gesamte Zinsen für {darlehen_gesamt_monate} Monate: {darlehen_gesamt_zinsen:.2f} EUR\n")
+# ==Tilgungsfreies Darlehen==
+loan.calc_interest_only_mortage_extension()
+loan.print_interest_only_mortage_extension()
 
-gesamtbelastung_0_10 = config.ansparen_rate + tilgungsfreie_darlehen_rate_monat
+# ==Sparphase==
+# Zusätzliche Raten Zwischenfinnanzieren?
+# Monatliche Rate automatisch für erreicheung der Bewertungszahl ausrechnen
+bauspar = Bauspar(config)
+bauspar.calc_bsv_saving_with_additional_payment()
+bauspar.print_bsv_seving_with_additional_payment()
+
+# ==Zwischenfinanzierung für Teilung==
+(is_interim_loan_exist, interim_loan, interim_loan_monthly_paymant, interim_loan_total_interest) = \
+  bauspar.calc_interim_loan()
+if is_interim_loan_exist:
+   bauspar.print_interim_loan(interim_loan, interim_loan_monthly_paymant, interim_loan_total_interest)
+
+# Berechnung wenn Bausparsumme kleiner als Darlehen
+if config.interest_only_mortgage_loan_amount > config.bsv_amount :
+    print(f"Rest von Darlehensumme : {config.interest_only_mortgage_loan_amount - config.bsv_amount:.2f} EUR")
+    
+    rest_from_loan_payment_monthly_rate = \
+      loan.calculate_monthly_rate(
+         config.interest_only_mortgage_loan_amount - config.bsv_amount
+      )
+
+    print(f"Monatliche Rate {rest_from_loan_payment_monthly_rate:.2f}")
+
+    total_interest_for_rest_from_loan = \
+      loan.calculate_total_interest((config.interest_only_mortgage_loan_amount - config.bsv_amount),
+                                     rest_from_loan_payment_monthly_rate)
+    print(f"Gesamtzins: {total_interest_for_rest_from_loan:.2f} EUR\n")
+
+# ==Darlehensphase==
+(bsv_loan_amount, bsv_loan_total_month, bsv_loan_total_interest) = bauspar.calc_loan_phase()
+bauspar.print_loan_phase(bsv_loan_amount, bsv_loan_total_month, bsv_loan_total_interest)
+
+gesamtbelastung_0_10 = config.ansparen_rate + loan.interest_only_mortgage_loan_payment_monthly
 print(f"Gesamtbelastung (monatlich) für 0-10 Jahre: {gesamtbelastung_0_10:.2f} EUR\n")
+if loan.interest_only_mortgage_extension_loan_payment_monthly != 0.0:
+  gesamtbelastung_11_15 = config.ansparen_rate + loan.interest_only_mortgage_extension_loan_payment_monthly
+  print(f" Zusätzliche Gesamtbelastung (monatlich) für 11-20 Jahre: {gesamtbelastung_11_15} EUR , für {config.bsv_saving_time - config.interest_only_mortgage_duration_in_months} Moante\n")
 
-print(f"Gesamtbelastung (monatlich) für 11-20 Jahre: {(config.bausparsumme * config.darlehen_rate) + zwischenfinanzierung_rate_monat:.2f} EUR\n")
+print(f"Gesamtbelastung (monatlich) für 11-20 Jahre: {(config.bsv_amount * config.interest_prinipal_paymants_mounthly) + interim_loan_monthly_paymant:.2f} EUR\n")
 
-print(f"Gesamtbelastung (monatlich) für 21-30 Jahre: {(config.bausparsumme * config.darlehen_rate):.2f} EUR\n")
+print(f"Gesamtbelastung (monatlich) für 21-30 Jahre: {(config.bsv_amount * config.interest_prinipal_paymants_mounthly):.2f} EUR\n")
 
-print(f"Zinsen über gesamte Lufzeit: {(tilgungsfreie_darlehen_zins_gesamt + zwischenfinanzierung_zinsen_gesamt + darlehen_gesamt_zinsen):.2f} EUR\n")
+interest_total_for_all_time = \
+  loan.interest_only_mortgage_interest_total  + loan.interest_only_mortgage_extension_interest_total + interim_loan_monthly_paymant + bsv_loan_total_interest
 
-print(f"Berechnung der Darlehen ohne BSV, Darlehen: {config.bausparsumme:.2f} EUR")
+print(f"Zinsen über gesamte Lufzeit: {(interest_total_for_all_time):.2f} EUR\n")
+
+print(f"Berechnung der Darlehen ohne BSV, Darlehen: {config.bsv_amount:.2f} EUR")
 print(f"Überneheme die Monatsraten aus dem Finanzierung mit BSV")
 # print(f"Monatsrate 0-10 Jahre: {gesamtbelastung_0_10:.2f} EUR")
 
-gesamtbelastung_11_20 = (config.bausparsumme * config.darlehen_rate) + zwischenfinanzierung_rate_monat
-gesamtbelastung_21_30 = config.bausparsumme * config.darlehen_rate
+gesamtbelastung_11_20 = (config.bsv_amount * config.interest_prinipal_paymants_mounthly) + interim_loan_monthly_paymant
+gesamtbelastung_21_30 = config.bsv_amount * config.interest_prinipal_paymants_mounthly
 
 darlehens_ohne_bsv = [
     (gesamtbelastung_0_10, config.darlehen_ohne_bsv_laufzeit_0_10, config.darlehen_ohne_bsv_zins_prognose_0_10),
@@ -54,27 +76,27 @@ darlehens_ohne_bsv = [
     (-1, config.darlehen_ohne_bsv_laufzeit_31_40, config.darlehen_ohne_bsv_zins_prognose_31_40)
 ]
 
-restschuld_gesamtzinsen = loan.calculate_remaining_debt_and_total_interest(config.bausparsumme, darlehens_ohne_bsv, print_on = False)
+restschuld_gesamtzinsen = loan.calculate_remaining_debt_and_total_interest(config.bsv_amount, darlehens_ohne_bsv, print_on = False)
 for (restschuld, gesamtzinsen_periode, gesamtzinsen) in restschuld_gesamtzinsen:
     print(f"Restschuld: {restschuld:.2f} EUR und gezahlte Zinsen in Periode: {gesamtzinsen_periode:.2f} EUR, Gesamtzinsen: {gesamtzinsen:.2f} EUR\n")
 
 # Export der Daten
 export_data = {
-    f"Darlehenssumme": f"{config.bausparsumme:.2f}",
-    f"Tilgungsfreie Darlehen: Gesamte Zinsen für {config.ansparen_zeit} Monate": f"{tilgungsfreie_darlehen_zins_gesamt:.2f}",
-    f"Tilgungsfreie Darlehen: Monatliche Rate in EUR": f"{tilgungsfreie_darlehen_rate_monat:.2f}",
-    f"Ansparenphase: Gesamte Ansparung für {config.bausparsumme:.2f} EUR in {config.ansparen_zeit} Monaten": f"{saving_amount:.2f}",
+    f"Darlehenssumme": f"{config.bsv_amount:.2f}",
+    f"Tilgungsfreie Darlehen: Gesamte Zinsen für {config.bsv_saving_time} Monate": f"{loan.interest_only_mortgage_interest_total:.2f}",
+    f"Tilgungsfreie Darlehen: Monatliche Rate in EUR": f"{loan.interest_only_mortgage_loan_payment_monthly:.2f}",
+    f"Ansparenphase: Gesamte Ansparung für {config.bsv_amount:.2f} EUR in {config.bsv_saving_time} Monaten": f"{bauspar.saving_amount_with_additional_payment:.2f}",
     f"Ansparenphase: Ansparrate pro Monat in EUR": f"{config.ansparen_rate:.2f}",
-    f"Ansparenphase: Rest zu finanzieren in EUR": f"{(config.bausparsumme * config.mindest_ansparung) - saving_amount:.2f}",
-    f"Zwischenfinanzierung: Monatliche Rate in EUR": f"{zwischenfinanzierung_rate_monat:.2f}",
-    f"Zwischenfinanzierung: Gesamtzinsen in EUR": f"{zwischenfinanzierung_zinsen_gesamt:.2f}",
-    f"Darlehenphase: Dallehensumme in EUR": f"{darlehen_bausparen:.2f}",
-    f"Darlehenphase: Monatliche Rate in EUR": f"{darlehen_bausparen_rate_monat:.2f}",
-    f"Darlehenphase: Gesamte Zinsen in EUR": f"{darlehen_gesamt_zinsen:.2f}",
+    f"Ansparenphase: Rest zu finanzieren in EUR": f"{(config.bsv_amount * config.bsv_minimum_saving_amount) - bauspar.saving_amount_with_additional_payment:.2f}",
+    f"Zwischenfinanzierung: Monatliche Rate in EUR": f"{interim_loan_monthly_paymant:.2f}",
+    f"Zwischenfinanzierung: Gesamtzinsen in EUR": f"{interim_loan_total_interest:.2f}",
+    f"Darlehenphase: Dallehensumme in EUR": f"{bsv_loan_amount:.2f}",
+    f"Darlehenphase: Monatliche Rate in EUR": f"{bsv_loan_total_month:.2f}",
+    f"Darlehenphase: Gesamte Zinsen in EUR": f"{bsv_loan_total_interest:.2f}",
     f"Gesamtbelastung Ansparphase in EUR": f"{gesamtbelastung_0_10:.2f}",
     f"Gesamtbelastung Darlehenphase mit Zwischenfinazierung in EUR": f"{gesamtbelastung_11_20:.2f}",
     f"Gesamtbelastung Darlehenphase in EUR": f"{gesamtbelastung_21_30:.2f}",
-    f"Gesamtzinsen über gesamte Lufzeit in EUR": f"{(tilgungsfreie_darlehen_zins_gesamt + zwischenfinanzierung_zinsen_gesamt + darlehen_gesamt_zinsen):.2f}",
+    f"Gesamtzinsen über gesamte Lufzeit in EUR": f"{(loan.interest_only_mortgage_interest_total + interim_loan_total_interest + bsv_loan_total_interest):.2f}",
     f"Darlehen ohne BSV: Darlehen in EUR": f"{gesamtbelastung_0_10:.2f}",
 }
 

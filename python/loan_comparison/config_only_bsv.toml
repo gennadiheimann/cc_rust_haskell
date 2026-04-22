@@ -9,7 +9,7 @@ interest_rate_decimal = 0.045
 duration_in_months = 120
 # Darlehenssumme
 loan_amount = 150000
-# Verlängerung für Ansparung
+
 [interest_only_mortage_extension]
 # Sollzins
 interest_rate_decimal = 0.06
@@ -17,7 +17,7 @@ interest_rate_decimal = 0.06
 [bsv]
 # Sparphase = saving_phase
 # Bausparsumme in Euro
-amount = 150000
+bs_sum = 150000
 # Guthabenzins in %
 deposit_rates_decimal = 0.001
 # Mindeststansparung in %
@@ -25,28 +25,24 @@ minimum_saving_amount_decimal = 0.35
 # Anschlussgebuehr in %
 acquisition_fee_decimal = 0.016
 # Ansparzeit in Monaten
-saving_time = 156
+saving_time = 180
+# Ansparzeit separat
+one_time_payment = 40000
+one_time_payment_moment = 120
 # Ansparrate monatlich in Euro
-saving_rate = 250
+saving_rate = 70
 # Darlehenphase = loan_phase
 #Fest Sollzins in %
-fixed_interest_rate_decimal = 0.0229
+fixed_interest_rate_decimal = 0.0239
 # Zins- und Tilgungsbeitrag monatlich in %
-interest_prinipal_paymants_mounthly_decimal = 0.006
+interest_prinipal_paymants_mounthly_decimal = 0.005
 # Zinsfaktor für Bewertungszahl
-interest_factor = 350
-# Zusaetzliche Ansparraten
-[[bsv.additional_payments]]
-payment = 5000
-moment = 60
-[[bsv.additional_payments]]
-payment = 5000
-moment = 120
+interest_factor = 300
+
 # Zwischenfinanzierung Ansparung
 # Ratenkredit
-[bsv.interim_loan]
+[instalment_loan]
 interest_rate_decimal = 0.07
-duration_in_month = 120
 
 # Darlehen ohen BSV
 [loan_without_bsv]
