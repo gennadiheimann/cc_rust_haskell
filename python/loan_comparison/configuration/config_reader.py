@@ -16,16 +16,17 @@ class ConfigReader:
         bsv = config["bsv"]
         self.bsv_amount = float(bsv["amount"])
         self.bsv_minimum_saving_amount = float(bsv["minimum_saving_amount_decimal"])
-        self.abschlussgebuehr = float(config["bsv"]["acquisition_fee_decimal"])
+        self.bsv_acquisition_fee_decimal = float(config["bsv"]["acquisition_fee_decimal"])
         # Ansparen
-        self.ansparen_guthabenzins = float(config["bsv"]["deposit_rates_decimal"])
-        self.bsv_saving_time = int(config["bsv"]["saving_time"])
+        self.bsv_deposit_rates_decimal = float(config["bsv"]["deposit_rates_decimal"])
+        self.bsv_saving_time_mounthly = int(config["bsv"]["saving_time_mounthly"])
         #self.bsv_additional_payment = config["bsv"]["additional_payment"]
         #self.bsv_additional_payment_moment = config["bsv"]["additional_payment_moment"]
         a_p = bsv["additional_payments"]
         self.bsv_additional_payments = {p["moment"]: p["payment"] for p in a_p}
-        self.ansparen_rate = float(config["bsv"]["saving_rate"])
+        self.bsv_saving_rate = float(config["bsv"]["saving_rate"])
         self.zinsfaktor = float(config["bsv"]["interest_factor"])
+        self.bsv_minimum_evaluation_score = float(config["bsv"]["minimum_evaluation_score"])
         # Zwischenfinanzierung
         self.bsv_interim_loan_interest_rate = float(bsv["interim_loan"]["interest_rate_decimal"])
         self.bsv_interim_loan_duration_in_month = float(bsv["interim_loan"]["duration_in_month"])

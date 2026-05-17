@@ -106,28 +106,38 @@ class Loan:
       restschuld_and_total_interest.append((restschuld_, total_interest_tmp, total_interest_))
 
     return restschuld_and_total_interest
-  
+  """
+    Berechnung des tilgungsfreien Darlehen
+  """
   def calc_interest_only_mortage(self):
-    self.interest_only_mortgage_interest_total = \
-      self.config.interest_only_mortgage_loan_amount * self.config.interest_only_mortgage_interest_rate_decimal * self.config.interest_only_mortgage_duration_in_months / 12
+    interest_only_mortgage_interest_total = (
+      self.config.interest_only_mortgage_loan_amount * 
+      self.config.interest_only_mortgage_interest_rate_decimal * 
+      self.config.interest_only_mortgage_duration_in_months / 12
+    )
 
-    self.interest_only_mortgage_loan_payment_monthly= self.interest_only_mortgage_interest_total / self.config.interest_only_mortgage_duration_in_months
+    interest_only_mortgage_loan_payment_monthly = (
+      interest_only_mortgage_interest_total / self.config.interest_only_mortgage_duration_in_months
+    )
+    return (interest_only_mortgage_interest_total, interest_only_mortgage_loan_payment_monthly)
+  
 
-  def print_interest_only_mortgage(self):
+  def print_interest_only_mortgage(self, interest_only_mortgage_interest_total, interest_only_mortgage_loan_payment_monthly):
     print(f"==Tilgungsfreies Darlehen==")
 
     print(f"\tDarlehen: {self.config.interest_only_mortgage_loan_amount:.2f} EUR")
     
     months = self.config.interest_only_mortgage_duration_in_months
-    interest_total = self.interest_only_mortgage_interest_total
+    interest_total = interest_only_mortgage_interest_total
 
     print(f"\tGesamte Zinsen für {months} Monate: {interest_total:.2f} EUR")
 
-    print(f"\tMonatliche Rate: {self.interest_only_mortgage_loan_payment_monthly:.2f} EUR\n")
+    print(f"\tMonatliche Rate: {interest_only_mortgage_loan_payment_monthly:.2f} EUR\n")
+
   
   def calc_interest_only_mortage_extension(self):
-    if self.config.bsv_saving_time - self.config.interest_only_mortgage_duration_in_months > 0:
-      self.extension_time_after_saving_time = self.config.bsv_saving_time - self.config.interest_only_mortgage_duration_in_months
+    if self.config.bsv_saving_time_mounthly - self.config.interest_only_mortgage_duration_in_months > 0:
+      self.extension_time_after_saving_time = self.config.bsv_saving_time_mounthly - self.config.interest_only_mortgage_duration_in_months
 
       self.interest_only_mortgage_extension_interest_total = \
         self.config.interest_only_mortgage_loan_amount * self.config.interest_only_mortage_extension_interest_rate_decimal * self.extension_time_after_saving_time / 12
@@ -138,7 +148,7 @@ class Loan:
       self.interest_only_mortgage_extension_loan_payment_monthly = 0.0 
 
   def print_interest_only_mortage_extension(self):
-    if self.config.bsv_saving_time - self.config.interest_only_mortgage_duration_in_months > 0:
+    if self.config.bsv_saving_time_mounthly - self.config.interest_only_mortgage_duration_in_months > 0:
       print("==Tilgungsfreies Darlehen Verlängerung==")
       
       print(f"\tGesamte Zinsen für {self.extension_time_after_saving_time} Monate: {self.interest_only_mortgage_extension_interest_total:.2f} EUR")
